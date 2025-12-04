@@ -1,0 +1,10 @@
+installers:
+  - executable: "powershell"
+    installScript: |
+      Write-Host "Hello World"
+
+  - executable: "powershell"
+    installScript: |
+      echo "Setting up environment"
+      apt-get update
+      apt-get install -y curl
