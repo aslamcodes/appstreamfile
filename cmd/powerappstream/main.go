@@ -6,7 +6,6 @@ import (
 	"io"
 	"os"
 
-	"github.com/aslamcodes/powerappstream-builder/internal/agent"
 	"github.com/aslamcodes/powerappstream-builder/internal/backend"
 )
 
@@ -16,11 +15,13 @@ func main() {
 
 	flag.Parse()
 
-	run(*source, *location, os.Stdout)
+	if err := run(*source, *location, os.Stdout); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
 
-func run(sourceType string, location string, out io.Writer) {
-	agent := agent.Agent{}
+func run(sourceType string, location string, out io.Writer) error {
 	switch sourceType {
 	case "local":
 		backend := backend.LocalBackend{
@@ -30,17 +31,18 @@ func run(sourceType string, location string, out io.Writer) {
 		config, err := backend.GetConfig()
 
 		if err != nil {
-			fmt.Fprintln(out, err)
+			return err
 		}
 
-		agent.HandleConfig(config, os.Stdout)
-	case "powerappstream":
-	case "s3":
-	case "git":
-	case "consul":
-	case "http":
-	case "k8":
-	case "azurerm":
+		config.Setup(out)
+
+		// case "powerappstream":
+		// case "s3":
+		// case "git":
+
 	default:
+		return fmt.Errorf("Invalid source provided")
 	}
+
+	return nil
 }

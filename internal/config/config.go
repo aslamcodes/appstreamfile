@@ -1,19 +1,13 @@
 package config
 
-import (
-	"fmt"
-	"io"
-)
-
-type Installer struct {
-	InstallScript string `yaml:"installScript"`
-	Executable    string `yaml:"executable"`
-}
+import "io"
 
 type Config struct {
 	Installers []Installer `yaml:"installers"`
 }
 
-func (i *Installer) Install(out io.Writer) {
-	fmt.Fprintln(out, fmt.Sprintf("%s %s", i.Executable, i.InstallScript))
+func (c *Config) Setup(out io.Writer) {
+	for _, i := range c.Installers {
+		i.Install(out)
+	}
 }
