@@ -10,4 +10,4 @@ installers:
 
   - executable: "cmd.exe"
     installScript: |
-      setup.bat
+      echo Hello
