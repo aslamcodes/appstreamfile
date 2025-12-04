@@ -1,3 +1,4 @@
+platform: "windows"
 installers:
   - executable: "powershell"
     installScript: |
@@ -6,5 +7,7 @@ installers:
   - executable: "powershell"
     installScript: |
       echo "Setting up environment"
-      apt-get update
-      apt-get install -y curl
+
+  - executable: "cmd.exe"
+    installScript: |
+      echo hello world

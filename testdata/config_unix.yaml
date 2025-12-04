@@ -1,0 +1,9 @@
+platform: "unix"
+installers:
+  - executable: "usr/bin/bash"
+    installScript: |
+      echo "Hello World"
+
+  - executable: "usr/bin/python"
+    installScript: |
+      print("hello world")
