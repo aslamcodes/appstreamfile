@@ -30,12 +30,17 @@ func TestGetConfig(t *testing.T) {
 			},
 			{
 				Executable:    "powershell",
-				InstallScript: "echo \"Setting up environment\"\napt-get update\napt-get install -y curl\n",
+				InstallScript: "echo \"Setting up environment\"\n",
+			},
+			{
+				Executable:    "cmd.exe",
+				InstallScript: "echo hello world\n",
 			},
 		},
 }
 
 	if !reflect.DeepEqual(expected, *actual) {
+		t.Fatalf("GetConfig() mismatch.\nexpected: %#v\nactual:   %#v", expected, *actual)
 		fmt.Fprintln(os.Stderr, "The expected and actual config are not equal")
 		t.FailNow()
 	}
