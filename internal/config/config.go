@@ -6,8 +6,14 @@ type Config struct {
 	Installers []Installer `yaml:"installers"`
 }
 
-func (c *Config) Setup(out io.Writer) {
+func (c *Config) Setup(out io.Writer) error {
 	for _, i := range c.Installers {
-		i.Install(out)
+		err := i.Install(out)
+
+		if err != nil {
+			return err
+		}
 	}
+
+	return nil
 }

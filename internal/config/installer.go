@@ -9,6 +9,6 @@ type Installer struct {
 	Executable    string `yaml:"executable"`
 }
 
-func (i *Installer) Install(out io.Writer) {
-	PlatformInstaller(i, out)
+func (i *Installer) Install(out io.Writer) error {
+	return PlatformInstaller(i, out)
 }

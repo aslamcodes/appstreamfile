@@ -7,6 +7,8 @@ import (
 	"io"
 )
 
-func PlatformInstaller(installer *Installer, out io.Writer) {
+func PlatformInstaller(installer *Installer, out io.Writer) error {
 	fmt.Fprintf(out, "unix in progress 🦔")
+
+	return nil
 }

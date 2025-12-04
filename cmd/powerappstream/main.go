@@ -34,7 +34,11 @@ func run(sourceType string, location string, out io.Writer) error {
 			return err
 		}
 
-		config.Setup(out)
+		err = config.Setup(out)
+
+		if err != nil {
+			return err
+		}
 
 		// case "powerappstream":
 		// case "s3":
