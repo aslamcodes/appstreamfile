@@ -4,6 +4,7 @@ import "io"
 
 type Config struct {
 	Installers []Installer `yaml:"installers"`
+	Files []File `yaml:"files"`
 }
 
 func (c *Config) Setup(out io.Writer) error {
