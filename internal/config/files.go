@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"io"
 	"os"
+	"path/filepath"
 )
 
 type File struct {
@@ -12,6 +13,10 @@ type File struct {
 }
 
 func (f *File) Deploy(w io.Writer) error {
+	if err := os.MkdirAll(filepath.Dir(f.Path), 0770); err != nil {
+		return err
+	}
+
 	file, err := os.Create(f.Path)
 
 	if err != nil {
