@@ -20,7 +20,7 @@ catalog:
     iconPath: ""
     workingDir: ""
 
-registryConfig:
+registry_config:
   - path: "HKEY_LOCAL_MACHINE\\Software\\MyApp"
     values:
       LogLevel: "DEBUG"
@@ -48,8 +48,8 @@ files:
     content: |
       Write-Host "User session cleanup"
 
-sessionScripts:
-  SessionStart:
+session_scripts:
+  session_start:
     executables:
       - context: "system"
         filename: "C:\\AppStream\\Scripts\\Start-System.ps1"
@@ -61,7 +61,7 @@ sessionScripts:
         arguments: "-UserSetup"
         s3LogEnabled: true
 
-  SessionTermination:
+  session_termination:
     executables:
       - context: "system"
         filename: "C:\\AppStream\\Scripts\\End-System.ps1"
