@@ -13,21 +13,12 @@ installers:
       echo hello world
 
 catalog:
-<<<<<<< Updated upstream
-  - name: ""
-    path: ""
-    displayName: ""
-    parameters: ""
-    iconPath: ""
-    workingDir: ""
-=======
   - name: "Notepad"
     path: "C:\\Windows\\System32\\notepad.exe"
     display_name: "Notepad"
     parameters: ""
     icon_path: "C:\\Windows\\System32\\notepad.exe"
     working_dir: "C:\\Windows\\System32"
->>>>>>> Stashed changes
 
 registry_config:
   - path: "HKEY_LOCAL_MACHINE\\Software\\MyApp"
