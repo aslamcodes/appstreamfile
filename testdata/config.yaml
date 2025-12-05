@@ -11,3 +11,64 @@ installers:
   - executable: "cmd.exe"
     installScript: |
       echo hello world
+
+catalog:
+  - name: ""
+    path: ""
+    displayName: ""
+    parameters: ""
+    iconPath: ""
+    workingDir: ""
+
+registryConfig:
+  - path: "HKEY_LOCAL_MACHINE\\Software\\MyApp"
+    values:
+      LogLevel: "DEBUG"
+      EnableFeatureX: 1
+
+  - path: "HKEY_CURRENT_USER\\Software\\ExampleApp\\UI"
+    values:
+      Theme: "Dark"
+      FontSize: 14
+
+files:
+  - path: "C:\\AppStream\\Scripts\\Start-System.ps1"
+    content: |
+      Write-EventLog -LogName Application -Source AppStream -EventID 100 -Message "System session start"
+
+  - path: "C:\\AppStream\\Scripts\\Start-User.ps1"
+    content: |
+      Write-Host "User profile initialization"
+
+  - path: "C:\\AppStream\\Scripts\\End-System.ps1"
+    content: |
+      Write-EventLog -LogName Application -Source AppStream -EventID 200 -Message "System cleanup"
+
+  - path: "C:\\AppStream\\Scripts\\End-User.ps1"
+    content: |
+      Write-Host "User session cleanup"
+
+sessionScripts:
+  SessionStart:
+    executables:
+      - context: "system"
+        filename: "C:\\AppStream\\Scripts\\Start-System.ps1"
+        arguments: "-Init"
+        s3LogEnabled: true
+
+      - context: "user"
+        filename: "C:\\AppStream\\Scripts\\Start-User.ps1"
+        arguments: "-UserSetup"
+        s3LogEnabled: true
+
+  SessionTermination:
+    executables:
+      - context: "system"
+        filename: "C:\\AppStream\\Scripts\\End-System.ps1"
+        arguments: "-Cleanup"
+        s3LogEnabled: true
+
+      - context: "user"
+        filename: "C:\\AppStream\\Scripts\\End-User.ps1"
+        arguments: "-CleanupUser"
+        s3LogEnabled: true
