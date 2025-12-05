@@ -12,7 +12,7 @@ import (
 
 func TestGetConfig(t *testing.T) {
 	localBackend := backend.LocalBackend{
-		Location: "../../testdata/config.yaml",
+		Location: "../../testdata/config_win.yaml",
 	}
 
 	actual, err := localBackend.GetConfig()
