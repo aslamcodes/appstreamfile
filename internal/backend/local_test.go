@@ -34,7 +34,33 @@ func TestGetConfig(t *testing.T) {
 			{Path: `C:\AppStream\Scripts\End-System.ps1`, Content: "Write-EventLog -LogName Application -Source AppStream -EventID 200 -Message \"System cleanup\"\n"},
 			{Path: `C:\AppStream\Scripts\End-User.ps1`, Content: "Write-Host \"User session cleanup\"\n"},
 		},
-	}
+		SessionScripts: config.SessionScripts{
+			SessionStart: config.Executables{
+				SystemContext: config.BaseConfig{
+					Filename:     `C:\AppStream\Scripts\Start-System.ps1`,
+					Arguments:    "-Init",
+					S3LogEnabled: true,
+				},
+				UserContext: config.BaseConfig{
+					Filename:     `C:\AppStream\Scripts\Start-User.ps1`,
+					Arguments:    "-UserSetup",
+					S3LogEnabled: true,
+				},
+			},
+			SessionTermination: config.Executables{
+				SystemContext: config.BaseConfig{
+					Filename:     `C:\AppStream\Scripts\End-System.ps1`,
+					Arguments:    "-Cleanup",
+					S3LogEnabled: true,
+				},
+				UserContext: config.BaseConfig{
+					Filename:     `C:\AppStream\Scripts\End-User.ps1`,
+					Arguments:    "-CleanupUser",
+					S3LogEnabled: true,
+				},
+			},
+		},
+}
 
 	if !reflect.DeepEqual(expected, *actual) {
 		t.Fatalf("GetConfig() mismatch.\nexpected: %#v\nactual:   %#v", expected, *actual)

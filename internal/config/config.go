@@ -3,8 +3,9 @@ package config
 import "io"
 
 type Config struct {
-	Installers []Installer `yaml:"installers"`
-	Files      []File      `yaml:"files"`
+	Installers     []Installer   `yaml:"installers"`
+	Files          []File        `yaml:"files"`
+	SessionScripts SessionScripts `yaml:"session_scripts"`
 }
 
 func (c *Config) Setup(out io.Writer) error {

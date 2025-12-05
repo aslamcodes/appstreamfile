@@ -1,17 +1,17 @@
 package config
 
-type baseConfig struct {
+type BaseConfig struct {
 	Filename     string `yaml:"filename"`
 	Arguments    string `yaml:"arguments"`
 	S3LogEnabled bool   `yaml:"s3LogEnabled"`
 }
 
 type Executables struct {
-	SystemContext baseConfig `yaml:"system_context"`
-	UserContext   baseConfig `yaml:"user_context"`
+	SystemContext BaseConfig `yaml:"system_context"`
+	UserContext   BaseConfig `yaml:"user_context"`
 }
 
-type SessionScript struct {
+type SessionScripts struct {
 	SessionStart       Executables `yaml:"session_start"`
 	SessionTermination Executables `yaml:"session_termination"`
 }
