@@ -50,25 +50,23 @@ files:
 
 session_scripts:
   session_start:
-    executables:
-      - context: "system"
-        filename: "C:\\AppStream\\Scripts\\Start-System.ps1"
-        arguments: "-Init"
-        s3LogEnabled: true
+    system_context:
+      filename: "C:\\AppStream\\Scripts\\Start-System.ps1"
+      arguments: "-Init"
+      s3LogEnabled: true
 
-      - context: "user"
-        filename: "C:\\AppStream\\Scripts\\Start-User.ps1"
-        arguments: "-UserSetup"
-        s3LogEnabled: true
+    user_context:
+      filename: "C:\\AppStream\\Scripts\\Start-User.ps1"
+      arguments: "-UserSetup"
+      s3LogEnabled: true
 
   session_termination:
-    executables:
-      - context: "system"
-        filename: "C:\\AppStream\\Scripts\\End-System.ps1"
-        arguments: "-Cleanup"
-        s3LogEnabled: true
+    system_context:
+      filename: "C:\\AppStream\\Scripts\\End-System.ps1"
+      arguments: "-Cleanup"
+      s3LogEnabled: true
 
-      - context: "user"
-        filename: "C:\\AppStream\\Scripts\\End-User.ps1"
-        arguments: "-CleanupUser"
-        s3LogEnabled: true
+    user_context:
+      filename: "C:\\AppStream\\Scripts\\End-User.ps1"
+      arguments: "-CleanupUser"
+      s3LogEnabled: true
