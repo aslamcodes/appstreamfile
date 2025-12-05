@@ -34,6 +34,18 @@ func TestGetConfig(t *testing.T) {
 			{Path: `C:\AppStream\Scripts\End-System.ps1`, Content: "Write-EventLog -LogName Application -Source AppStream -EventID 200 -Message \"System cleanup\"\n"},
 			{Path: `C:\AppStream\Scripts\End-User.ps1`, Content: "Write-Host \"User session cleanup\"\n"},
 		},
+
+		Catalogs: []config.CatalogConfig{
+			{
+				Name:        "Notepad",
+				Path:        `C:\Windows\System32\notepad.exe`,
+				DisplayName: "Notepad",
+				Parameters:  "",
+				IconPath:    `C:\Windows\System32\notepad.exe`,
+				WorkingDir:  `C:\Windows\System32`,
+			},
+		},
+
 		SessionScripts: config.SessionScripts{
 			SessionStart: config.SessionConfig{
 				Executables: []config.Executable{

@@ -13,12 +13,12 @@ installers:
       echo hello world
 
 catalog:
-  - name: ""
-    path: ""
-    displayName: ""
+  - name: "Notepad"
+    path: "C:\\Windows\\System32\\notepad.exe"
+    display_name: "Notepad"
     parameters: ""
-    iconPath: ""
-    workingDir: ""
+    icon_path: "C:\\Windows\\System32\\notepad.exe"
+    working_dir: "C:\\Windows\\System32"
 
 registry_config:
   - path: "HKEY_LOCAL_MACHINE\\Software\\MyApp"
