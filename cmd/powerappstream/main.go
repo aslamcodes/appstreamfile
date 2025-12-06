@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/aslamcodes/powerappstream-builder/internal/backend"
+	logger "github.com/aslamcodes/powerappstream-builder/internal/logging"
 )
 
 func main() {
@@ -13,6 +14,8 @@ func main() {
 	location := flag.String("location", "", "The config file location")
 
 	flag.Parse()
+
+	logger.Init()
 
 	if err := run(*source, *location); err != nil {
 		fmt.Fprintln(os.Stderr, err)
