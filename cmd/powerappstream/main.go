@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/aslamcodes/powerappstream-builder/internal/backend"
@@ -15,13 +14,13 @@ func main() {
 
 	flag.Parse()
 
-	if err := run(*source, *location, os.Stdout); err != nil {
+	if err := run(*source, *location); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
-func run(sourceType string, location string, out io.Writer) error {
+func run(sourceType string, location string) error {
 	switch sourceType {
 	case "local":
 		backend := backend.LocalBackend{
@@ -31,21 +30,17 @@ func run(sourceType string, location string, out io.Writer) error {
 		config, err := backend.GetConfig()
 
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to fetch config from backend: %w", err)
 		}
 
-		err = config.Setup(out)
+		err = config.Setup()
 
 		if err != nil {
-			return err
+			return fmt.Errorf("error setting up config: %w", err)
 		}
 
-		// case "powerappstream":
-		// case "s3":
-		// case "git":
-
 	default:
-		return fmt.Errorf("Invalid source provided")
+		return fmt.Errorf("invalid source provided")
 	}
 
 	return nil

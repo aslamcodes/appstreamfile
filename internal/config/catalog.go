@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"io"
 	"os/exec"
+	"strings"
 )
 
 type CatalogConfig struct {
@@ -15,7 +15,20 @@ type CatalogConfig struct {
 	WorkingDir  string `yaml:"working_dir"`
 }
 
-func (c CatalogConfig) Args() []string {
+func (c *CatalogConfig) String() string {
+	builder := strings.Builder{}
+
+	builder.WriteString(fmt.Sprintf("name - %s\n", c.Name))
+	builder.WriteString(fmt.Sprintf("absolute-app-path - %s\n", c.Path))
+	builder.WriteString(fmt.Sprintf("display-name - %s\n", c.DisplayName))
+	builder.WriteString(fmt.Sprintf("launch-parameters - %s\n", c.Parameters))
+	builder.WriteString(fmt.Sprintf("absolute-icon-path - %s\n", c.IconPath))
+	builder.WriteString(fmt.Sprintf("working-directory - %s\n", c.WorkingDir))
+
+	return builder.String()
+}
+
+func (c *CatalogConfig) Args() []string {
 	args := []string{}
 
 	if c.Name != "" {
@@ -40,7 +53,10 @@ func (c CatalogConfig) Args() []string {
 	return args
 }
 
-func (c *CatalogConfig) UpdateStackCatalog(out io.Writer) error {
+func (c *CatalogConfig) UpdateStackCatalog() error {
+	fmt.Println("\nConfiguring stack catalog")
+	fmt.Println(c)
+
 	_, err := exec.LookPath("image-assistant.exe")
 
 	if err != nil {
@@ -51,15 +67,13 @@ func (c *CatalogConfig) UpdateStackCatalog(out io.Writer) error {
 
 	cmd := exec.Command("image-assistant.exe", args...)
 
-	fmt.Println(cmd.String())
-
 	output, err := cmd.CombinedOutput()
 
 	if err != nil {
 		return err
 	}
 
-	out.Write(output)
+	fmt.Println(string(output))
 
 	return nil
 }
