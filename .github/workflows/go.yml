@@ -21,8 +21,11 @@ jobs:
         go-version: '1.24'
     - run: go version
 
-    - name: Build
+    - name: Build Unix
       run: go build -v ./...
+
+    - name: Build Windows
+      run: GOOS=windows go build -v ./...
 
     - name: Test
       run: go test -v ./...
