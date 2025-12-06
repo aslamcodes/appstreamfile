@@ -3,7 +3,6 @@ package config
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 )
@@ -13,7 +12,7 @@ type File struct {
 	Content string `yaml:"content"`
 }
 
-func (f *File) Deploy(w io.Writer) error {
+func (f *File) Deploy() error {
 	if err := os.MkdirAll(filepath.Dir(f.Path), 0770); err != nil {
 		return fmt.Errorf("error creating required directories for %s: %w", f.Path, err)
 	}

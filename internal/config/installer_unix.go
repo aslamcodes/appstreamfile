@@ -4,11 +4,10 @@ package config
 
 import (
 	"fmt"
-	"io"
 )
 
-func PlatformInstaller(installer *Installer, out io.Writer) error {
-	fmt.Fprintf(out, "unix in progress 🦔")
+func PlatformInstaller(installer *Installer) error {
+	fmt.Println("unix in progress 🦔")
 
 	return nil
 }
