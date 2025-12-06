@@ -24,10 +24,6 @@ func main() {
 }
 
 func run(sourceType string, location string) error {
-	logger.Log.Info("TEST")
-	logger.Log.Warn("TEST")
-	logger.Log.Error("TEST")
-
 	switch sourceType {
 	case "local":
 		backend := backend.LocalBackend{
