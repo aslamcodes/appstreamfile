@@ -31,21 +31,17 @@ func run(sourceType string, location string, out io.Writer) error {
 		config, err := backend.GetConfig()
 
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to fetch config from backend: %w", err)
 		}
 
 		err = config.Setup(out)
 
 		if err != nil {
-			return err
+			return fmt.Errorf("error setting up config: %w", err)
 		}
 
-		// case "powerappstream":
-		// case "s3":
-		// case "git":
-
 	default:
-		return fmt.Errorf("Invalid source provided")
+		return fmt.Errorf("invalid source provided")
 	}
 
 	return nil

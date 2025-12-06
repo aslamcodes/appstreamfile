@@ -1,11 +1,14 @@
 package config
 
-import "io"
+import (
+	"fmt"
+	"io"
+)
 
 type Config struct {
 	Installers     []Installer     `yaml:"installers"`
 	Files          []File          `yaml:"files"`
-	Catalogs        []CatalogConfig `yaml:"catalog"`
+	Catalogs       []CatalogConfig `yaml:"catalog"`
 	SessionScripts SessionScripts  `yaml:"session_scripts"`
 }
 
@@ -14,7 +17,7 @@ func (c *Config) Setup(out io.Writer) error {
 		err := f.Deploy(out)
 
 		if err != nil {
-			return err
+			return fmt.Errorf("error deploying file %s: %w", f.Path, err)
 		}
 	}
 
@@ -22,17 +25,17 @@ func (c *Config) Setup(out io.Writer) error {
 		err := i.Install(out)
 
 		if err != nil {
-			return err
+			return fmt.Errorf("error installing %s: %w", i.Executable+i.InstallScript, err)
 		}
 	}
 
 	if err := c.SessionScripts.UpdateSessionScriptConfig(out); err != nil {
-		return err
+		return fmt.Errorf("error configuring session scripts: %w", err)
 	}
 
 	for _, catalog := range c.Catalogs {
 		if err := catalog.UpdateStackCatalog(out); err != nil {
-			return err
+			return fmt.Errorf("error updating stack catalog: %w", err)
 		}
 	}
 
