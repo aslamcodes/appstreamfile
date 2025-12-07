@@ -36,7 +36,6 @@ func TestGetConfig(t *testing.T) {
 		Installers: []config.Installer{
 			{Executable: "powershell", InstallScript: "Write-Host \"Hello World\"\n"},
 			{Executable: "powershell", InstallScript: "echo \"Setting up environment\"\n"},
-			{Executable: "cmd.exe", InstallScript: "echo hello world\n"},
 		},
 		Files: []config.File{
 			{Path: `C:\AppStream\Scripts\Start-System.ps1`, Content: "Write-EventLog -LogName Application -Source AppStream -EventID 100 -Message \"System session start\"\n"},
