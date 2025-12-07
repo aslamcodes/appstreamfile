@@ -32,8 +32,13 @@ func run(sourceType string, location string) error {
 
 		config, err := backend.GetConfig()
 
+
 		if err != nil {
 			return fmt.Errorf("failed to fetch config from backend: %w", err)
+		}
+
+		if err := validator.ValidateConfig(config); err != nil {
+			return fmt.Errorf("config file validation failed: %w", err)
 		}
 
 		err = config.Setup()

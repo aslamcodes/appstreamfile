@@ -64,7 +64,7 @@ installers:
 				t.Errorf("unable to fetch config data: %v", err)
 			}
 
-			err = validator.ValidateConfig(configData)
+			err = validator.ValidatePlatforms(configData)
 
 			if !errors.Is(err, tC.expected) {
 				t.Errorf("expected %v, got %v", tC.expected, err)

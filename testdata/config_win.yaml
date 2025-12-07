@@ -8,10 +8,6 @@ installers:
     installScript: |
       echo "Setting up environment"
 
-  - executable: "cmd.exe"
-    installScript: |
-      echo hello world
-
 catalog:
   - name: "Notepad"
     path: "C:\\Windows\\System32\\notepad.exe"
