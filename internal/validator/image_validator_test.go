@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aslamcodes/powerappstream-builder/internal/backend"
-	"github.com/aslamcodes/powerappstream-builder/internal/validator"
+	"github.com/aslamcodes/appstream-file/internal/backend"
+	"github.com/aslamcodes/appstream-file/internal/validator"
 )
 
 func TestValidateImage(t *testing.T) {
