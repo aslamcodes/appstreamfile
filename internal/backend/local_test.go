@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/aslamcodes/appstream-file/internal/backend"
-	"github.com/aslamcodes/appstream-file/internal/config"
+	"github.com/aslamcodes/appstreamfile/internal/backend"
+	"github.com/aslamcodes/appstreamfile/internal/config"
 )
 
 func TestGetConfig(t *testing.T) {

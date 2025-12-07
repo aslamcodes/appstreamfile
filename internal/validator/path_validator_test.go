@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aslamcodes/appstream-file/internal/backend"
-	"github.com/aslamcodes/appstream-file/internal/validator"
+	"github.com/aslamcodes/appstreamfile/internal/backend"
+	"github.com/aslamcodes/appstreamfile/internal/validator"
 )
 
 func TestValidatePaths(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/aslamcodes/appstream-file/internal/config"
+	"github.com/aslamcodes/appstreamfile/internal/config"
 )
 
 var (
