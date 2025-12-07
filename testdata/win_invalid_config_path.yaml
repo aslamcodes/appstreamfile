@@ -1,0 +1,6 @@
+catalog:
+  - name: "Notepad"
+    display_name: "Notepad"
+    parameters: ""
+    icon_path: "C:\\Windows\\System32\\notepad.exe"
+    working_dir: "C:\\Windows\\System32"

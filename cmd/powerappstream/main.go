@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/aslamcodes/powerappstream-builder/internal/backend"
-	logger "github.com/aslamcodes/powerappstream-builder/internal/logging"
+	"github.com/aslamcodes/powerappstream-builder/internal/logger"
 )
 
 func main() {
