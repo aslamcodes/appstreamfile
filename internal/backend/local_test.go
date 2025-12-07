@@ -24,6 +24,15 @@ func TestGetConfig(t *testing.T) {
 
 	expected := config.Config{
 		Platform: "windows",
+		Image: config.Image{
+			Name: "example_image",
+			DisplayName: "example image",
+			Description: "example image",
+			EnableDynamicAppCatalog: true,
+			UseLatestAgentVersion: false,
+			Tags: []string{"team:infra", "env:dev"},
+			DryRun: false,
+		},
 		Installers: []config.Installer{
 			{Executable: "powershell", InstallScript: "Write-Host \"Hello World\"\n"},
 			{Executable: "powershell", InstallScript: "echo \"Setting up environment\"\n"},

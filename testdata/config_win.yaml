@@ -76,3 +76,14 @@ session_scripts:
         s3LogEnabled: true
 
     waitingTime: 60
+
+image:
+  name: "example_image"
+  display_name: "example image"
+  description: "example image"
+  enable_dynamic_app_catalog: true
+  use_latest_agent_version: false
+  tags:
+    - team:infra
+    - env:dev
+  dry_run: false

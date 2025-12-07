@@ -10,6 +10,7 @@ type Config struct {
 	Files          []File          `yaml:"files"`
 	Catalogs       []CatalogConfig `yaml:"catalog"`
 	SessionScripts SessionScripts  `yaml:"session_scripts"`
+	Image          Image           `yaml:"image"`
 }
 
 func (c *Config) Setup() error {
@@ -39,6 +40,10 @@ func (c *Config) Setup() error {
 		if err := catalog.UpdateStackCatalog(); err != nil {
 			return fmt.Errorf("error updating stack catalog: %w", err)
 		}
+	}
+
+	if err := c.Image.BuildImage(); err != nil {
+		return fmt.Errorf("error building out image: %w", err)
 	}
 
 	return nil
