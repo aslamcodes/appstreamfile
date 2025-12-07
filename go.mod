@@ -1,4 +1,4 @@
-module github.com/aslamcodes/powerappstream-builder
+module github.com/aslamcodes/appstream-file
 
 go 1.24.1
 

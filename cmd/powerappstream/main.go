@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aslamcodes/powerappstream-builder/internal/backend"
-	"github.com/aslamcodes/powerappstream-builder/internal/logger"
+	"github.com/aslamcodes/appstream-file/internal/backend"
+	"github.com/aslamcodes/appstream-file/internal/logger"
 )
 
 func main() {
