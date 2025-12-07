@@ -42,6 +42,10 @@ func (c *Config) Setup() error {
 		}
 	}
 
+	if err := c.Image.BuildImage(); err != nil {
+		return fmt.Errorf("error building out image: %w", err)
+	}
+
 	return nil
 }
 

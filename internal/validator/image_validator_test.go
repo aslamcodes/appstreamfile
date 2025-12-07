@@ -20,6 +20,22 @@ func TestValidateImage(t *testing.T) {
 			desc: "invalid image config",
 			fileContent: `platform: "windows"
 image:
+  name: "example image"
+  display_name: "example image"
+  description: "example image"
+  enable_dynamic_app_catalog: true
+  use_latest_agent_version: false
+  tags:
+    - team infra
+    - envdev
+    - no
+  dry_run: false`,
+			expected: validator.ErrInvalidTagsCreateImage,
+		},
+		{
+			desc: "invalid image config",
+			fileContent: `platform: "windows"
+image:
   display_name: "example image"
   description: "example image"
   enable_dynamic_app_catalog: true
