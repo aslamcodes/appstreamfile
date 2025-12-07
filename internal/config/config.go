@@ -43,3 +43,18 @@ func (c *Config) Setup() error {
 
 	return nil
 }
+
+// Commented out since this code is non-deterministic, behavior varies based on the current host OS. As this might not affect the behavior.
+// func (c *Config) NormaliseConfig() {
+// 	for i, catalog := range c.Catalogs {
+// 		catalog.Path = filepath.Clean(catalog.Path)
+// 		catalog.IconPath = filepath.Clean(catalog.IconPath)
+// 		c.Catalogs[i] = catalog
+// 	}
+
+// 	for i, file := range c.Files {
+// 		file.Path = filepath.Clean(file.Path)
+// 		c.Files[i] = file
+// 	}
+
+// }
