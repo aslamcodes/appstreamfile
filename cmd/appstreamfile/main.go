@@ -7,6 +7,7 @@ import (
 
 	"github.com/aslamcodes/appstreamfile/internal/backend"
 	"github.com/aslamcodes/appstreamfile/internal/logger"
+	"github.com/aslamcodes/appstreamfile/internal/validator"
 )
 
 func main() {
@@ -31,7 +32,6 @@ func run(sourceType string, location string) error {
 		}
 
 		config, err := backend.GetConfig()
-
 
 		if err != nil {
 			return fmt.Errorf("failed to fetch config from backend: %w", err)
