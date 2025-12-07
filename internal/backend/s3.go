@@ -1,7 +1,7 @@
 package backend
 
 import (
-	c "github.com/aslamcodes/appstream-file/internal/config"
+	c "github.com/aslamcodes/appstreamfile/internal/config"
 )
 
 type S3Backend struct {

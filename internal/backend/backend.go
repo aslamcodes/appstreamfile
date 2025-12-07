@@ -1,6 +1,6 @@
 package backend
 
-import c "github.com/aslamcodes/appstream-file/internal/config"
+import c "github.com/aslamcodes/appstreamfile/internal/config"
 
 type BackendSource interface {
 	GetConfig() c.Config

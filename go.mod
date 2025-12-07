@@ -1,4 +1,4 @@
-module github.com/aslamcodes/appstream-file
+module github.com/aslamcodes/appstreamfile
 
 go 1.24.1
 
