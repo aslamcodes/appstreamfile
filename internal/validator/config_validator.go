@@ -12,7 +12,8 @@ var (
 	ErrInvalidPlatform = errors.New("Platform not supported")
 )
 
-func ValidateConfig(c *config.Config) error {
+
+func ValidatePlatforms(c *config.Config) error {
 	if c.Platform == "" {
 		return ErrPlatformMissing
 	}
