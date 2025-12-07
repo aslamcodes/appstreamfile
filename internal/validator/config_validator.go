@@ -13,7 +13,7 @@ var (
 )
 
 
-func ValidateConfig(c *config.Config) error {
+func ValidatePlatforms(c *config.Config) error {
 	if c.Platform == "" {
 		return ErrPlatformMissing
 	}
