@@ -10,18 +10,12 @@ import (
 
 var (
 	ErrInvalidExecutableForPlatform = errors.New("Invalid executable for given platform")
-	ErrInvalidPlatform              = errors.New("Platform not supported")
 )
 
 func InstallerValidator(configData *config.Config) error {
-	execPlatformMap := map[string][]string{
-		"windows": {"powershell"},
-		"unix":    {"bash"},
-	}
-
 	platform := configData.Platform
 
-	platformExecs, exists := execPlatformMap[platform]
+	platformExecs, exists := ExecPlatformMap[platform]
 
 	if !exists {
 		return ErrInvalidPlatform
