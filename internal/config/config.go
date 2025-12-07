@@ -5,7 +5,7 @@ import (
 )
 
 type Config struct {
-	Platform string `yaml:"platform"`
+	Platform       string          `yaml:"platform"`
 	Installers     []Installer     `yaml:"installers"`
 	Files          []File          `yaml:"files"`
 	Catalogs       []CatalogConfig `yaml:"catalog"`
