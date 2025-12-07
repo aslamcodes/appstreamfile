@@ -23,6 +23,7 @@ func TestGetConfig(t *testing.T) {
 	}
 
 	expected := config.Config{
+		Platform: "windows",
 		Installers: []config.Installer{
 			{Executable: "powershell", InstallScript: "Write-Host \"Hello World\"\n"},
 			{Executable: "powershell", InstallScript: "echo \"Setting up environment\"\n"},
