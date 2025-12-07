@@ -10,6 +10,7 @@ type Config struct {
 	Files          []File          `yaml:"files"`
 	Catalogs       []CatalogConfig `yaml:"catalog"`
 	SessionScripts SessionScripts  `yaml:"session_scripts"`
+	Image          Image           `yaml:"image"`
 }
 
 func (c *Config) Setup() error {
