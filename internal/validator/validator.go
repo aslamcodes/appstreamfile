@@ -3,7 +3,7 @@ package validator
 import (
 	"fmt"
 
-	"github.com/aslamcodes/powerappstream-builder/internal/config"
+	"github.com/aslamcodes/appstreamfile/internal/config"
 )
 
 var ExecPlatformMap = map[string][]string{
