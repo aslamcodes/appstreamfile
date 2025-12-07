@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aslamcodes/powerappstream-builder/internal/config"
+	"github.com/aslamcodes/appstream-file/internal/config"
 	"github.com/goccy/go-yaml"
 )
 

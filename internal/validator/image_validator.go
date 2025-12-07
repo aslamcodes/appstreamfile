@@ -4,12 +4,12 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/aslamcodes/powerappstream-builder/internal/config"
+	"github.com/aslamcodes/appstream-file/internal/config"
 )
 
 var (
 	ErrInvalidParametersCreateImage = errors.New("invalid parameters for create image operation")
-	ErrInvalidTagsCreateImage = errors.New("format invalid for create-image tags (key1:value1)")
+	ErrInvalidTagsCreateImage       = errors.New("format invalid for create-image tags (key1:value1)")
 )
 
 func ValidateImage(c *config.Config) error {

@@ -3,7 +3,7 @@ package validator
 import (
 	"errors"
 
-	"github.com/aslamcodes/powerappstream-builder/internal/config"
+	"github.com/aslamcodes/appstream-file/internal/config"
 )
 
 var (
@@ -22,7 +22,7 @@ func ValidateCatalogApplications(configData *config.Config) error {
 		}
 
 		if c.Path == "" {
-		return ErrEmptyCatalogPath
+			return ErrEmptyCatalogPath
 		}
 	}
 
