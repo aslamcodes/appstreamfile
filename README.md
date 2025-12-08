@@ -1,5 +1,5 @@
 # Appstreamfile
-A Dockerfile for AWS Image Builders Built in Go
+A Dockerfile for AWS Image Builders Built in Go. A declarative spec for AWS AppStream images. Appstreamfile defines everything that goes into an image, while your automation system handles execution. 
 
 # Why
 AWS AppStream provides a CLI, but it only handles high-level image operations like updating stack applications or building images. The real pain is preparing the image itself — installers, custom scripts, environment tweaks, catalog entries, and session scripts. Doing this by hand or via plain scripting is messy and impossible to audit cleanly.
