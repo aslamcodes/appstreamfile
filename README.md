@@ -22,7 +22,6 @@ AWS AppStream provides a CLI, but it only handles high-level image operations li
 
 # Installation
 ## Windows Installation
-
 You can install and run **AppStreamFile** without cloning the repository.  
 The script detects your system architecture and downloads the correct binary automatically.
 
@@ -32,6 +31,12 @@ iwr https://raw.githubusercontent.com/aslamcodes/appstreamfile/main/scripts/inst
 
 ## Linux
 ***Supported in future releases***
+
+# Usage
+Use **local** backend source when the config file is within image builders. S3, Git Support is WIP
+```sh
+    appstreamfile -source local -location config.yaml
+```
 
 # Sample config
 ```yaml
