@@ -14,7 +14,7 @@ type Config struct {
 }
 
 func (c *Config) Setup() error {
-	if err := c.SessionScripts.UpdateSessionScriptConfig(); err != nil {
+	if err := c.SessionScripts.UpdateSessionScriptConfig(SessionScriptLocation()); err != nil {
 		return fmt.Errorf("error configuring session scripts: %w", err)
 	}
 

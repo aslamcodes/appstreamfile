@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 type Executable struct {
@@ -25,9 +26,17 @@ type SessionScripts struct {
 	SessionTermination SessionConfig `yaml:"session_termination" json:"SessionTermination"`
 }
 
-func (ss *SessionScripts) UpdateSessionScriptConfig() error {
+func SessionScriptLocation() string {
+	if runtime.GOOS == "windows" {
+		return `C:\Appstream\SessionScripts\config.json`
+	}
+	return "/opt/appstream/SessionScripts/config.json"
+}
+
+func (ss *SessionScripts) UpdateSessionScriptConfig(location string) error {
 	fmt.Println("Configuring session scripts")
-	if err := os.MkdirAll(filepath.Dir(SESSION_SCRIPT_CONFIG_LOCATION), 0770); err != nil {
+
+	if err := os.MkdirAll(filepath.Dir(location), 0770); err != nil {
 		return err
 	}
 
@@ -37,13 +46,13 @@ func (ss *SessionScripts) UpdateSessionScriptConfig() error {
 		return err
 	}
 
-	file, err := os.Create(SESSION_SCRIPT_CONFIG_LOCATION)
+	file, err := os.Create(location)
 
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("Sessions scripts are configured successfully at", SESSION_SCRIPT_CONFIG_LOCATION)
+	fmt.Println("Sessions scripts are configured successfully at", location)
 
 	defer file.Close()
 
