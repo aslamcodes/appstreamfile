@@ -20,11 +20,18 @@ AWS AppStream provides a CLI, but it only handles high-level image operations li
 3. S3 and Git backend support
 4. State persistence within image builders 
 
-# Usage
-Use **local** backend source when the config file is within image builders. S3, Git Support is WIP
-```sh
-    appstreamfile -source local -location config.yaml
+# Installation
+## Windows Installation
+
+You can install and run **AppStreamFile** without cloning the repository.  
+The script detects your system architecture and downloads the correct binary automatically.
+
+```powershell
+iwr https://raw.githubusercontent.com/aslamcodes/appstreamfile/main/scripts/install.ps1 | iex
 ```
+
+## Linux
+***Supported in future releases***
 
 # Sample config
 ```yaml
