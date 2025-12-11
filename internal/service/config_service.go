@@ -32,7 +32,7 @@ func Setup(c *config.Config) error {
 	//
 	services := &services{
 		CatalogSvc: &UpdateStackCatalogSvc{
-			Exec: execx.ExecCommander{},
+			Exec: &execx.ExecCommander{},
 		},
 	}
 
