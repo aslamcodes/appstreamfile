@@ -7,6 +7,7 @@ import (
 
 	"github.com/aslamcodes/appstreamfile/internal/backend"
 	"github.com/aslamcodes/appstreamfile/internal/logger"
+	"github.com/aslamcodes/appstreamfile/internal/service"
 	"github.com/aslamcodes/appstreamfile/internal/validator"
 )
 
@@ -41,7 +42,7 @@ func run(sourceType string, location string) error {
 			return fmt.Errorf("config file validation failed: %w", err)
 		}
 
-		err = config.Setup()
+		err = service.Setup(config)
 
 		if err != nil {
 			return fmt.Errorf("error setting up config: %w", err)
