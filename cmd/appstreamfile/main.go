@@ -42,7 +42,7 @@ func run(sourceType string, location string) error {
 			return fmt.Errorf("config file validation failed: %w", err)
 		}
 
-		err = service.Setup(config)
+		err = service.ImplementConfig(config)
 
 		if err != nil {
 			return fmt.Errorf("error setting up config: %w", err)

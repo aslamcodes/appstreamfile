@@ -7,26 +7,27 @@ import (
 	"github.com/aslamcodes/appstreamfile/internal/execx"
 )
 
-func Setup(c *config.Config) error {
+func ImplementConfig(c *config.Config) error {
 	// if err := c.SessionScripts.UpdateSessionScriptConfig(SessionScriptLocation()); err != nil {
 	// 	return fmt.Errorf("error configuring session scripts: %w", err)
 	// }
 
-	// for _, i := range c.Installers {
-	// 	fmt.Println("Executing installer with", i.Executable)
-	// 	err := i.Install()
-
-	// 	if err != nil {
-	// 		return fmt.Errorf("error installing %s: %w", i.Executable+i.InstallScript, err)
-	// 	}
-	// }
-	//
 	services := &services{
 		CatalogSvc: &UpdateStackCatalogSvc{
 			Exec: &execx.ExecCommander{},
 		},
 		FileDeploySvc:     &FileDeploySvc{},
 		ImageBuildService: &ImageBuildSvc{},
+		InstallerService:  &InstallerSvc{},
+	}
+
+	for _, i := range c.Installers {
+		fmt.Println("Executing installer with", i.Executable)
+		err := services.InstallerService.Install(&i)
+
+		if err != nil {
+			return fmt.Errorf("error installing %s: %w", i.Executable+i.InstallScript, err)
+		}
 	}
 
 	for _, f := range c.Files {
