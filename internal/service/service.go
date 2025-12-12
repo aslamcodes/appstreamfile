@@ -5,4 +5,5 @@ type services struct {
 	FileDeploySvc *FileDeploySvc
 	ImageBuildService *ImageBuildSvc
 	InstallerService *InstallerSvc
+	SessionScriptService *SessionScriptSvc
 }

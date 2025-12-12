@@ -1,4 +1,4 @@
-package config_test
+package service_test
 
 import (
 	"encoding/json"
@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
+	"github.com/aslamcodes/appstreamfile/internal/service"
 )
 
 func Test(t *testing.T) {
@@ -51,7 +52,9 @@ func Test(t *testing.T) {
 		},
 	}
 
-	ss.UpdateSessionScriptConfig(config_file_path)
+	svc := service.SessionScriptSvc{}
+
+	svc.UpdateSessionScriptConfig(config_file_path, *ss)
 
 	content, err := os.ReadFile(config_file_path)
 
