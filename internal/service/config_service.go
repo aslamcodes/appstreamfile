@@ -12,15 +12,6 @@ func Setup(c *config.Config) error {
 	// 	return fmt.Errorf("error configuring session scripts: %w", err)
 	// }
 
-	// for _, f := range c.Files {
-	// 	fmt.Println("Deploying file", f.Path)
-	// 	err := f.Deploy()
-
-	// 	if err != nil {
-	// 		return fmt.Errorf("error deploying file %s: %w", f.Path, err)
-	// 	}
-	// }
-
 	// for _, i := range c.Installers {
 	// 	fmt.Println("Executing installer with", i.Executable)
 	// 	err := i.Install()
@@ -34,6 +25,16 @@ func Setup(c *config.Config) error {
 		CatalogSvc: &UpdateStackCatalogSvc{
 			Exec: &execx.ExecCommander{},
 		},
+		FileDeploySvc: &FileDeploySvc{},
+	}
+
+	for _, f := range c.Files {
+		fmt.Println("Deploying file", f.Path)
+		err := services.FileDeploySvc.DeployFile(&f)
+
+		if err != nil {
+			return fmt.Errorf("error deploying file %s: %w", f.Path, err)
+		}
 	}
 
 	for _, catalog := range c.Catalogs {
