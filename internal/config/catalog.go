@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"os/exec"
 	"strings"
 )
 
@@ -51,29 +50,4 @@ func (c *CatalogConfig) Args() []string {
 	}
 
 	return args
-}
-
-func (c *CatalogConfig) UpdateStackCatalog() error {
-	fmt.Println("\nConfiguring stack catalog")
-	fmt.Println(c)
-
-	_, err := exec.LookPath("image-assistant.exe")
-
-	if err != nil {
-		return err
-	}
-
-	args := append([]string{"add-application"}, c.Args()...)
-
-	cmd := exec.Command("image-assistant.exe", args...)
-
-	output, err := cmd.CombinedOutput()
-
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(string(output))
-
-	return nil
 }

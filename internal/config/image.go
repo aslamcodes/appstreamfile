@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"os/exec"
 	"strings"
 )
 
@@ -51,30 +50,4 @@ func (i *Image) Args() []string {
 	}
 
 	return args
-}
-
-func (image *Image) BuildImage() error {
-	fmt.Println("\nBuilding out image")
-
-	_, err := exec.LookPath("image-assistant.exe")
-
-	if err != nil {
-		return err
-	}
-
-	args := append([]string{"create-image"}, image.Args()...)
-
-	cmd := exec.Command("image-assistant.exe", args...)
-
-	fmt.Println(cmd.String())
-
-	output, err := cmd.CombinedOutput()
-
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(string(output))
-
-	return nil
 }
