@@ -3,53 +3,64 @@ package service
 import (
 	"fmt"
 	"os"
-	"os/exec"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
+	"github.com/aslamcodes/appstreamfile/internal/execx"
 )
 
 type InstallerSvc struct {
+	Exec           execx.Commander
+	KeepTmpForTest bool
 }
 
 func (s *InstallerSvc) Install(inst *config.Installer) error {
-	runScript := func(exe, ext, body string, argsPrefix ...string) error {
-		f, err := os.CreateTemp(os.TempDir(), "installer-*"+ext)
-
-		if err != nil {
-			return fmt.Errorf("unable to create temporary file: %w", err)
-		}
-
-		defer func() {
-			f.Close()
-			os.Remove(f.Name())
-		}()
-
-		if _, err := f.Write([]byte(body)); err != nil {
-			return fmt.Errorf("error writing to file %s: %w", f.Name(), err)
-		}
-
-		args := append(argsPrefix, f.Name())
-
-		cmd := exec.Command(exe, args...)
-
-		output, err := cmd.CombinedOutput()
-
-		if err != nil {
-			return fmt.Errorf("error executing command %s: %w", cmd.String(), err)
-		}
-
-		fmt.Println(string(output))
-
-		return nil
-	}
+	var (
+		exe  string
+		ext  string
+		args []string
+	)
 
 	switch inst.Executable {
 	case "powershell":
-		return runScript("powershell.exe", ".ps1", inst.InstallScript, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File")
+		exe = "powershell.exe"
+		ext = ".ps1"
+		args = []string{"-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File"}
 	case "bash":
-		// return runScript("bash", ".sh", inst.InstallScript)
+		exe = "bash"
+		ext = ".sh"
 	default:
 		return fmt.Errorf("unsupported executable: %s", inst.Executable)
 	}
+
+	f, err := os.CreateTemp("", "installer-*"+ext)
+	if err != nil {
+		return fmt.Errorf("unable to create temporary file: %w", err)
+	}
+	defer func() {
+		if !s.KeepTmpForTest {
+			os.Remove(f.Name())
+		}
+	}()
+	defer f.Close()
+
+	_, err = f.Write([]byte(inst.InstallScript))
+
+	if err != nil {
+		return fmt.Errorf("writing script: %w", err)
+	}
+
+	return s.RunScript(exe, args, f.Name())
+}
+
+func (s *InstallerSvc) RunScript(exe string, args []string, filePath string) error {
+	cmd := s.Exec.Command(exe, append(args, filePath)...)
+
+	out, err := cmd.CombinedOutput()
+
+	if err != nil {
+		return fmt.Errorf("command failed: %w", err)
+	}
+
+	fmt.Println(string(out))
 	return nil
 }
