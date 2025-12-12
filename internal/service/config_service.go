@@ -23,7 +23,7 @@ func ImplementConfig(c *config.Config) error {
 
 	for _, i := range c.Installers {
 		fmt.Println("Executing installer with", i.Executable)
-		err := services.InstallerService.Install(&i)
+		err := services.InstallerService.InstallScript(&i)
 
 		if err != nil {
 			return fmt.Errorf("error installing %s: %w", i.Executable+i.InstallScript, err)

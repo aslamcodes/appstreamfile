@@ -13,7 +13,7 @@ type InstallerSvc struct {
 	KeepTmpForTest bool
 }
 
-func (s *InstallerSvc) Install(inst *config.Installer) error {
+func (s *InstallerSvc) InstallScript(inst *config.Installer) error {
 	var (
 		exe  string
 		ext  string

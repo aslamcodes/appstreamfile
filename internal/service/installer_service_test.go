@@ -17,7 +17,7 @@ func TestInstallCreatesScriptFile(t *testing.T) {
 		InstallScript: "Write-Host hi",
 	}
 
-	_ = svc.Install(inst)
+	_ = svc.InstallScript(inst)
 
 	scriptPath := fake.LastArgs[len(fake.LastArgs)-1]
 
