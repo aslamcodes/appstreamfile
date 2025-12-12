@@ -5,10 +5,16 @@ import (
 )
 
 type FakeCmd struct {
+	Command string
+	Args    []string
 }
 
 func (c *FakeCmd) CombinedOutput() ([]byte, error) {
 	return []byte{}, nil
+}
+
+func (c *FakeCmd) String() string {
+	return ""
 }
 
 type FakeCommander struct {
@@ -22,8 +28,11 @@ func (fc *FakeCommander) LookPath(file string) (string, error) {
 	return file, fc.LookPathErr
 }
 
-func (fc *FakeCommander) Command(name string, arg ...string) execx.Cmd {
+func (fc *FakeCommander) Command(name string, args ...string) execx.Cmd {
 	fc.LastCommand = name
-	fc.LastArgs = arg
-	return &FakeCmd{}
+	fc.LastArgs = args
+	return &FakeCmd{
+		Command: name,
+		Args:    args,
+	}
 }

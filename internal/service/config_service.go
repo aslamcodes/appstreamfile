@@ -25,7 +25,8 @@ func Setup(c *config.Config) error {
 		CatalogSvc: &UpdateStackCatalogSvc{
 			Exec: &execx.ExecCommander{},
 		},
-		FileDeploySvc: &FileDeploySvc{},
+		FileDeploySvc:     &FileDeploySvc{},
+		ImageBuildService: &ImageBuildSvc{},
 	}
 
 	for _, f := range c.Files {
@@ -43,9 +44,9 @@ func Setup(c *config.Config) error {
 		}
 	}
 
-	// if err := c.Image.BuildImage(); err != nil {
-	// 	return fmt.Errorf("error building out image: %w", err)
-	// }
+	if err := services.ImageBuildService.BuildImage(c.Image); err != nil {
+		return fmt.Errorf("error building out image: %w", err)
+	}
 
 	return nil
 }

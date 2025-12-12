@@ -7,4 +7,5 @@ type Commander interface {
 
 type Cmd interface {
 	CombinedOutput() ([]byte, error)
+	String() string
 }
