@@ -10,15 +10,12 @@ import (
 const IMAGE_ASSISTANT = "image-assistant"
 
 func ImplementConfig(c *config.Config) error {
-	// if err := c.SessionScripts.UpdateSessionScriptConfig(SessionScriptLocation()); err != nil {
-	// 	return fmt.Errorf("error configuring session scripts: %w", err)
-	// }
-
 	services := &services{
+		FileDeploySvc:        &FileDeploySvc{},
+		SessionScriptService: &SessionScriptSvc{},
 		CatalogSvc: &UpdateStackCatalogSvc{
 			Exec: &execx.ExecCommander{},
 		},
-		FileDeploySvc: &FileDeploySvc{},
 		ImageBuildService: &ImageBuildSvc{
 			Exec: &execx.ExecCommander{},
 		},
@@ -43,6 +40,10 @@ func ImplementConfig(c *config.Config) error {
 		if err != nil {
 			return fmt.Errorf("error deploying file %s: %w", f.Path, err)
 		}
+	}
+
+	if err := services.SessionScriptService.UpdateSessionScriptConfig(SessionScriptLocation(), c.SessionScripts); err != nil {
+		return fmt.Errorf("error configuring session scripts: %w", err)
 	}
 
 	for _, catalog := range c.Catalogs {
