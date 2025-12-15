@@ -61,7 +61,7 @@ func (s *InstallerSvc) RunScript(exe string, args []string, filePath string) err
 	out, err := cmd.CombinedOutput()
 
 	if err != nil {
-		return fmt.Errorf("command failed: %w\noutput: %s", err, out)
+		return fmt.Errorf("error executing command: %s\nouput: %s\nerror: %w", cmd.String(), out, err)
 	}
 
 	fmt.Println(string(out))

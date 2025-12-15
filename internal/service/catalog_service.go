@@ -28,7 +28,7 @@ func (svc *UpdateStackCatalogSvc) UpdateStackCatalog(c config.CatalogConfig) err
 	output, err := cmd.CombinedOutput()
 
 	if err != nil {
-		return err
+		return fmt.Errorf("error executing command: %s\nouput: %s\nerror: %w", cmd.String(), output, err)
 	}
 
 	fmt.Println(string(output))
