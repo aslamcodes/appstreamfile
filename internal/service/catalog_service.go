@@ -15,7 +15,7 @@ func (svc *UpdateStackCatalogSvc) UpdateStackCatalog(c config.CatalogConfig) err
 	fmt.Println("\nConfiguring stack catalog")
 	fmt.Println(c)
 
-	_, err := svc.Exec.LookPath("image-assitant.exe")
+	_, err := svc.Exec.LookPath(IMAGE_ASSISTANT)
 
 	if err != nil {
 		return err
@@ -23,7 +23,7 @@ func (svc *UpdateStackCatalogSvc) UpdateStackCatalog(c config.CatalogConfig) err
 
 	args := append([]string{"add-application"}, c.Args()...)
 
-	cmd := svc.Exec.Command("image-assistant.exe", args...)
+	cmd := svc.Exec.Command(IMAGE_ASSISTANT, args...)
 
 	output, err := cmd.CombinedOutput()
 
