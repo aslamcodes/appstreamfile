@@ -41,12 +41,15 @@ func (s *InstallerSvc) InstallScript(inst *config.Installer) error {
 			os.Remove(f.Name())
 		}
 	}()
-	defer f.Close()
 
 	_, err = f.Write([]byte(inst.InstallScript))
 
 	if err != nil {
 		return fmt.Errorf("writing script: %w", err)
+	}
+
+	if err := f.Close(); err != nil {
+		return fmt.Errorf("unable to close the file: %w", err)
 	}
 
 	return s.RunScript(exe, args, f.Name())
@@ -58,7 +61,7 @@ func (s *InstallerSvc) RunScript(exe string, args []string, filePath string) err
 	out, err := cmd.CombinedOutput()
 
 	if err != nil {
-		return fmt.Errorf("command failed: %w", err)
+		return fmt.Errorf("command failed: %w\noutput: %s", err, out)
 	}
 
 	fmt.Println(string(out))

@@ -14,7 +14,7 @@ type ImageBuildSvc struct {
 func (i *ImageBuildSvc) BuildImage(image config.Image) error {
 	fmt.Println("\nBuilding out image")
 
-	_, err := i.Exec.LookPath("image-assistant.exe")
+	_, err := i.Exec.LookPath(IMAGE_ASSISTANT)
 
 	if err != nil {
 		return err
@@ -22,7 +22,7 @@ func (i *ImageBuildSvc) BuildImage(image config.Image) error {
 
 	args := append([]string{"create-image"}, image.Args()...)
 
-	cmd := i.Exec.Command("image-assistant.exe", args...)
+	cmd := i.Exec.Command(IMAGE_ASSISTANT, args...)
 
 	fmt.Println(cmd.String())
 

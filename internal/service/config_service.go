@@ -7,6 +7,8 @@ import (
 	"github.com/aslamcodes/appstreamfile/internal/execx"
 )
 
+const IMAGE_ASSISTANT = "image-assistant"
+
 func ImplementConfig(c *config.Config) error {
 	services := &services{
 		FileDeploySvc:        &FileDeploySvc{},
@@ -27,7 +29,7 @@ func ImplementConfig(c *config.Config) error {
 		err := services.InstallerService.InstallScript(&i)
 
 		if err != nil {
-			return fmt.Errorf("error installing %s: %w", i.Executable+i.InstallScript, err)
+			return fmt.Errorf("error executing %s script\n%s: %w", i.Executable, i.InstallScript, err)
 		}
 	}
 
