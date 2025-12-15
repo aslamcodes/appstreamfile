@@ -32,7 +32,7 @@ func TestImageBuild(t *testing.T) {
 
 	i.BuildImage(image)
 
-	expectedCommand := strings.TrimSpace(`image-assistant.exe create-image --name "test" --display-name "test2" --description "test3" --use-latest-agent-version --enable-dynamic-app-catalog --dry-run --tags "k1" "v1"`)
+	expectedCommand := strings.TrimSpace(`image-assistant create-image --name "test" --display-name "test2" --description "test3" --use-latest-agent-version --enable-dynamic-app-catalog --dry-run --tags "k1" "v1"`)
 	actual := strings.TrimSpace(fmt.Sprintf("%s %s", fc.LastCommand, strings.Join(fc.LastArgs, " ")))
 
 	if expectedCommand != actual {
