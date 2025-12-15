@@ -17,8 +17,12 @@ func ImplementConfig(c *config.Config) error {
 			Exec: &execx.ExecCommander{},
 		},
 		FileDeploySvc:     &FileDeploySvc{},
-		ImageBuildService: &ImageBuildSvc{},
-		InstallerService:  &InstallerSvc{},
+		ImageBuildService: &ImageBuildSvc{
+			Exec: &execx.ExecCommander{},
+		},
+		InstallerService:  &InstallerSvc{
+			Exec: &execx.ExecCommander{},
+		},
 	}
 
 	for _, i := range c.Installers {
