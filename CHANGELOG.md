@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/aslamcodes/appstreamfile/compare/v0.1.0...v0.1.1) (2025-12-15)
+
+
+### Bug Fixes
+
+* add service initialisation to implement config ([affa200](https://github.com/aslamcodes/appstreamfile/commit/affa20017ba33af18d4734b46dab3c9c6fd99f8a))
+* add service initialisation to implement config ([7186cd3](https://github.com/aslamcodes/appstreamfile/commit/7186cd34cfcb71adc665dab525fa909cb15bba03))
+
 ## 0.1.0 (2025-12-09)
 
 
