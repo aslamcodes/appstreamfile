@@ -7,6 +7,8 @@ import (
 	"github.com/aslamcodes/appstreamfile/internal/execx"
 )
 
+const IMAGE_ASSISTANT = "image-assistant"
+
 func ImplementConfig(c *config.Config) error {
 	// if err := c.SessionScripts.UpdateSessionScriptConfig(SessionScriptLocation()); err != nil {
 	// 	return fmt.Errorf("error configuring session scripts: %w", err)
@@ -16,11 +18,11 @@ func ImplementConfig(c *config.Config) error {
 		CatalogSvc: &UpdateStackCatalogSvc{
 			Exec: &execx.ExecCommander{},
 		},
-		FileDeploySvc:     &FileDeploySvc{},
+		FileDeploySvc: &FileDeploySvc{},
 		ImageBuildService: &ImageBuildSvc{
 			Exec: &execx.ExecCommander{},
 		},
-		InstallerService:  &InstallerSvc{
+		InstallerService: &InstallerSvc{
 			Exec: &execx.ExecCommander{},
 		},
 	}
@@ -30,7 +32,7 @@ func ImplementConfig(c *config.Config) error {
 		err := services.InstallerService.InstallScript(&i)
 
 		if err != nil {
-			return fmt.Errorf("error installing %s: %w", i.Executable+i.InstallScript, err)
+			return fmt.Errorf("error executing %s script\n%s: %w", i.Executable, i.InstallScript, err)
 		}
 	}
 
