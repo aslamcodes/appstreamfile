@@ -24,6 +24,7 @@ func TestGetConfig(t *testing.T) {
 
 	expected := config.Config{
 		Platform: "windows",
+
 		Image: config.Image{
 			Name:                    "example_image",
 			DisplayName:             "example image",
@@ -33,15 +34,10 @@ func TestGetConfig(t *testing.T) {
 			Tags:                    []string{"team:infra", "env:dev"},
 			DryRun:                  false,
 		},
+
 		Installers: []config.Installer{
 			{Executable: "powershell", InstallScript: "Write-Host \"Hello World\"\n"},
 			{Executable: "powershell", InstallScript: "echo \"Setting up environment\"\n"},
-		},
-		Files: []config.File{
-			{Path: `C:\AppStream\Scripts\Start-System.ps1`, Content: "Write-EventLog -LogName Application -Source AppStream -EventID 100 -Message \"System session start\"\n"},
-			{Path: `C:\AppStream\Scripts\Start-User.ps1`, Content: "Write-Host \"User profile initialization\"\n"},
-			{Path: `C:\AppStream\Scripts\End-System.ps1`, Content: "Write-EventLog -LogName Application -Source AppStream -EventID 200 -Message \"System cleanup\"\n"},
-			{Path: `C:\AppStream\Scripts\End-User.ps1`, Content: "Write-Host \"User session cleanup\"\n"},
 		},
 
 		Catalogs: []config.CatalogConfig{
@@ -50,8 +46,27 @@ func TestGetConfig(t *testing.T) {
 				Path:        `C:\Windows\System32\notepad.exe`,
 				DisplayName: "Notepad",
 				Parameters:  "",
-				IconPath:    `C:\Windows\System32\notepad.exe`,
-				WorkingDir:  `C:\Windows\System32`,
+				IconPath:    "",
+				WorkingDir:  "",
+			},
+		},
+
+		Files: []config.File{
+			{
+				Path:    `C:\AppStream\Scripts\Start-System.ps1`,
+				Content: "Write-EventLog -LogName Application -Source AppStream -EventID 100 -Message \"System session start\"\n",
+			},
+			{
+				Path:    `C:\AppStream\Scripts\Start-User.ps1`,
+				Content: "Write-Host \"User profile initialization\"\n",
+			},
+			{
+				Path:    `C:\AppStream\Scripts\End-System.ps1`,
+				Content: "Write-EventLog -LogName Application -Source AppStream -EventID 200 -Message \"System cleanup\"\n",
+			},
+			{
+				Path:    `C:\AppStream\Scripts\End-User.ps1`,
+				Content: "Write-Host \"User session cleanup\"\n",
 			},
 		},
 
@@ -60,31 +75,32 @@ func TestGetConfig(t *testing.T) {
 				Executables: []config.Executable{
 					{
 						Context:      "system",
-						Filename:     `C:\AppStream\Scripts\Start-System.ps1`,
-						Arguments:    "-Init",
+						Filename:     `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`,
+						Arguments:    "-Init -File C:\\AppStream\\Scripts\\Start-System.ps1",
 						S3LogEnabled: true,
 					},
 					{
 						Context:      "user",
-						Filename:     `C:\AppStream\Scripts\Start-User.ps1`,
-						Arguments:    "-UserSetup",
+						Filename:     `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`,
+						Arguments:    "-UserSetup -File C:\\AppStream\\Scripts\\Start-User.ps1",
 						S3LogEnabled: true,
 					},
 				},
 				WaitingTime: 60,
 			},
+
 			SessionTermination: config.SessionConfig{
 				Executables: []config.Executable{
 					{
 						Context:      "system",
-						Filename:     `C:\AppStream\Scripts\End-System.ps1`,
-						Arguments:    "-Cleanup",
+						Filename:     `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`,
+						Arguments:    "-Init -File C:\\AppStream\\Scripts\\Start-System.ps1",
 						S3LogEnabled: true,
 					},
 					{
 						Context:      "user",
-						Filename:     `C:\AppStream\Scripts\End-User.ps1`,
-						Arguments:    "-CleanupUser",
+						Filename:     `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`,
+						Arguments:    "-UserSetup -File C:\\AppStream\\Scripts\\Start-User.ps1",
 						S3LogEnabled: true,
 					},
 				},

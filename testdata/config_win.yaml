@@ -13,8 +13,8 @@ catalog:
     path: "C:\\Windows\\System32\\notepad.exe"
     display_name: "Notepad"
     parameters: ""
-    icon_path: "C:\\Windows\\System32\\notepad.exe"
-    working_dir: "C:\\Windows\\System32"
+    icon_path: ""
+    working_dir: ""
 
 registry_config:
   - path: "HKEY_LOCAL_MACHINE\\Software\\MyApp"
@@ -48,27 +48,26 @@ session_scripts:
   session_start:
     executables:
       - context: "system"
-        filename: "C:\\AppStream\\Scripts\\Start-System.ps1"
-        arguments: "-Init"
+        filename: "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        arguments: "-Init -File C:\\AppStream\\Scripts\\Start-System.ps1"
         s3LogEnabled: true
 
       - context: "user"
-        filename: "C:\\AppStream\\Scripts\\Start-User.ps1"
-        arguments: "-UserSetup"
+        filename: "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        arguments: "-UserSetup -File C:\\AppStream\\Scripts\\Start-User.ps1"
         s3LogEnabled: true
-
     waitingTime: 60
 
   session_termination:
     executables:
       - context: "system"
-        filename: "C:\\AppStream\\Scripts\\End-System.ps1"
-        arguments: "-Cleanup"
+        filename: "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        arguments: "-Init -File C:\\AppStream\\Scripts\\Start-System.ps1"
         s3LogEnabled: true
 
       - context: "user"
-        filename: "C:\\AppStream\\Scripts\\End-User.ps1"
-        arguments: "-CleanupUser"
+        filename: "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        arguments: "-UserSetup -File C:\\AppStream\\Scripts\\Start-User.ps1"
         s3LogEnabled: true
 
     waitingTime: 60
