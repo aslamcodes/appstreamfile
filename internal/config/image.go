@@ -16,24 +16,28 @@ type Image struct {
 }
 
 func (i *Image) Args() []string {
-	args := []string{}
+	var args []string
 
 	if i.Name != "" {
-		args = append(args, fmt.Sprintf(`--name "%s"`, i.Name))
+		args = append(args, "--name", i.Name)
 	}
 
 	if i.DisplayName != "" {
-		args = append(args, fmt.Sprintf(`--display-name "%s"`, i.DisplayName))
+		args = append(args, "--display-name", i.DisplayName)
 	}
+
 	if i.Description != "" {
-		args = append(args, fmt.Sprintf(`--description "%s"`, i.Description))
+		args = append(args, "--description", i.Description)
 	}
+
 	if i.UseLatestAgentVersion {
 		args = append(args, "--use-latest-agent-version")
 	}
+
 	if i.EnableDynamicAppCatalog {
 		args = append(args, "--enable-dynamic-app-catalog")
 	}
+
 	if i.DryRun {
 		args = append(args, "--dry-run")
 	}
