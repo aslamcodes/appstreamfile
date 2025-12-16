@@ -1,13 +1,11 @@
-param(
-  [string]$Version
-)
+$Version = $args[0]
+
+if (-not $Version) {
+  throw "Usage: iex <script> v0.2.0"
+}
 
 function Install-AppStreamFile {
   param([string]$Version)
-
-  if (-not $Version) {
-    throw "Usage: iwr ... | iex -Version v0.2.0"
-  }
 
   $repo    = "aslamcodes/appstreamfile"
   $baseUrl = "https://github.com/$repo/releases/download/$Version"
@@ -38,4 +36,4 @@ function Install-AppStreamFile {
   & $exe --help
 }
 
-Install-AppStreamFile -Version $Version
+Install-AppStreamFile $Version
