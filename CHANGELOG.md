@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.0](https://github.com/aslamcodes/appstreamfile/compare/v0.1.1...v0.2.0) (2025-12-16)
+
+
+### Features
+
+* enable session script service for implementconfig ([c450aba](https://github.com/aslamcodes/appstreamfile/commit/c450abaef1d4eae8bef5d8c6ad6e9da4040877e3))
+* enable session script service for implementconfig ([cedc814](https://github.com/aslamcodes/appstreamfile/commit/cedc814975005a6b6060fe26580cc6cd07cc98d9))
+
+
+### Bug Fixes
+
+* add context to command execution ([92df7d4](https://github.com/aslamcodes/appstreamfile/commit/92df7d4f3d1ed849766ad8197b4c5b7e7322ebc8))
+* file read process lock ([d2481e9](https://github.com/aslamcodes/appstreamfile/commit/d2481e929a8e932969f1bfc5e1c87227f9ec86b3))
+* file read process lock ([c013b4f](https://github.com/aslamcodes/appstreamfile/commit/c013b4f0eacaa173776a61382727b7bcc198a50f))
+* fix build command by listing the argv ([#40](https://github.com/aslamcodes/appstreamfile/issues/40)) ([06f7dfa](https://github.com/aslamcodes/appstreamfile/commit/06f7dfa2956defd900ddbcea21e492b069b14e0a))
+
 ## [0.1.1](https://github.com/aslamcodes/appstreamfile/compare/v0.1.0...v0.1.1) (2025-12-15)
 
 
