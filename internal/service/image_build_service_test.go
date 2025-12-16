@@ -26,13 +26,13 @@ func TestImageBuild(t *testing.T) {
 		Description:             "test3",
 		EnableDynamicAppCatalog: true,
 		UseLatestAgentVersion:   true,
-		Tags:                    []string{"k1", "v1"},
+		Tags:                    []string{"k1", "v1", "k2", "built with appstreamfile"},
 		DryRun:                  true,
 	}
 
 	i.BuildImage(image)
 
-	expectedCommand := strings.TrimSpace(`image-assistant create-image --name "test" --display-name "test2" --description "test3" --use-latest-agent-version --enable-dynamic-app-catalog --dry-run --tags "k1" "v1"`)
+	expectedCommand := strings.TrimSpace(`image-assistant create-image --name test --display-name test2 --description test3 --use-latest-agent-version --enable-dynamic-app-catalog --dry-run --tags k1 v1 k2 built with appstreamfile`)
 	actual := strings.TrimSpace(fmt.Sprintf("%s %s", fc.LastCommand, strings.Join(fc.LastArgs, " ")))
 
 	if expectedCommand != actual {
