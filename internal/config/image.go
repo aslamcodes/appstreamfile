@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -43,14 +42,13 @@ func (i *Image) Args() []string {
 	}
 
 	if len(i.Tags) > 0 {
-		tagString := []string{"--tags"}
+		args = append(args, "--tags")
 		for _, tag := range i.Tags {
 			parts := strings.SplitSeq(tag, ":")
 			for part := range parts {
-				tagString = append(tagString, fmt.Sprintf(`"%s"`, part))
+				args = append(args, part)
 			}
 		}
-		args = append(args, strings.Join(tagString, " "))
 	}
 
 	return args
