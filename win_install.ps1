@@ -1,11 +1,8 @@
-$Version = $args[0]
-
-if (-not $Version) {
-  throw "Usage: iex <script> v0.2.0"
-}
-
 function Install-AppStreamFile {
-  param([string]$Version)
+  param(
+    [Parameter(Mandatory=$true, Position=0)]
+    [string]$Version
+  )
 
   $repo    = "aslamcodes/appstreamfile"
   $baseUrl = "https://github.com/$repo/releases/download/$Version"
@@ -26,6 +23,7 @@ function Install-AppStreamFile {
   $url  = "$baseUrl/$file"
   $zip  = Join-Path $dir $file
 
+  Write-Host "Downloading $file..."
   Invoke-WebRequest $url -OutFile $zip
   Expand-Archive $zip $dir -Force
   Remove-Item $zip
@@ -33,7 +31,6 @@ function Install-AppStreamFile {
   $exe = Join-Path $dir "appstreamfile.exe"
   if (!(Test-Path $exe)) { throw "Binary not found" }
 
+  Write-Host "Installation complete!"
   & $exe --help
 }
-
-Install-AppStreamFile $Version
