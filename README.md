@@ -26,7 +26,7 @@ You can install and run **AppStreamFile** without cloning the repository.
 The script detects your system architecture and downloads the correct binary automatically.
 
 ```powershell
-iwr https://raw.githubusercontent.com/aslamcodes/appstreamfile/main/win_install.ps1 | iex
+iex (iwr https://raw.githubusercontent.com/aslamcodes/appstreamfile/main/win_install.ps1 -UseBasicParsing); Install-AppStreamFile v0.2.0
 ```
 
 ## Linux
