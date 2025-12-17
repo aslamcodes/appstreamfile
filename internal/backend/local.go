@@ -31,3 +31,9 @@ func (lb *LocalBackend) GetConfig() (*config.Config, error) {
 
 	return &configData, nil
 }
+
+func NewLocalBackend(location string) (BackendSource, error) {
+	return &LocalBackend{
+		Location: location,
+	}, nil
+}

@@ -6,51 +6,26 @@ import (
 	"io"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
-	s3Config "github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/goccy/go-yaml"
 )
 
 type S3Backend struct {
 	Bucket    string
 	Key       string
-	Region    string
-	Profile   string
-	Endpoint  string
-	VersionID string
+	VersionId string
+	Client    S3Client
 }
 
 func (s3Backend *S3Backend) GetConfig() (*config.Config, error) {
-	opts := []func(*s3Config.LoadOptions) error{}
-
-	if s3Backend.Profile != "" {
-		opts = append(opts, s3Config.WithSharedConfigProfile(s3Backend.Profile))
-	}
-
 	ctx := context.Background()
 
-	cfg, err := s3Config.LoadDefaultConfig(ctx, opts...)
+	out, err := s3Backend.Client.GetObject(ctx, s3Backend.Bucket, s3Backend.Key, s3Backend.VersionId)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to load SDK configuration, %w", err)
+		return nil, fmt.Errorf("failed to fetch object from s3: %w", err)
 	}
 
-	client := s3.NewFromConfig(cfg)
-
-	objectConfig := s3.GetObjectInput{
-		Bucket: &s3Backend.Bucket,
-		Key:    &s3Backend.Key,
-	}
-
-	if s3Backend.VersionID != "" {
-		objectConfig.VersionId = &s3Backend.VersionID
-	}
-
-	out, err := client.GetObject(ctx, &objectConfig)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch object from s3, %w: ", err)
-	}
+	defer out.Body.Close()
 
 	content, err := io.ReadAll(out.Body)
 
@@ -67,4 +42,19 @@ func (s3Backend *S3Backend) GetConfig() (*config.Config, error) {
 	fmt.Printf("Builder has successfully parsed the config file from backend\n")
 
 	return &configData, nil
+}
+
+func NewS3Backend(bucket, key, versionId, profile string) (BackendSource, error) {
+	client, err := NewS3Client(profile)
+
+	if err != nil {
+		return nil, fmt.Errorf("not able to create s3 client: %w", err)
+	}
+
+	return &S3Backend{
+		Bucket:    bucket,
+		Key:       key,
+		VersionId: versionId,
+		Client:    client,
+	}, nil
 }
