@@ -57,6 +57,8 @@ func run(sourceType string, opts *RunOptions) error {
 			return fmt.Errorf("missing required S3 options: bucket and key")
 		}
 		backendSource, err = backend.NewS3Backend(opts.bucket, opts.key, opts.versionId, "appstream_machine_role")
+
+
 	default:
 		return fmt.Errorf("invalid source provided")
 	}
