@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/aslamcodes/appstreamfile/compare/v0.2.0...v0.3.0) (2025-12-18)
+
+
+### Features
+
+* s3 backend source ([#42](https://github.com/aslamcodes/appstreamfile/issues/42)) ([5238b99](https://github.com/aslamcodes/appstreamfile/commit/5238b990d5a67572cbff281510adde29c9538263))
+
 ## [0.2.0](https://github.com/aslamcodes/appstreamfile/compare/v0.1.1...v0.2.0) (2025-12-16)
 
 
