@@ -11,45 +11,76 @@ import (
 	"github.com/aslamcodes/appstreamfile/internal/validator"
 )
 
+type RunOptions struct {
+	location  string
+	bucket    string
+	key       string
+	versionId string
+}
+
 func main() {
-	source := flag.String("source", "", "The source to pick actions from")
-	location := flag.String("location", "", "The config file location")
+	source := flag.String("source", "", "Configuration source: s3 or local")
+	location := flag.String("location", "", "Local filesystem path to the config file")
+	bucket := flag.String("bucket", "", "S3 bucket containing the config file")
+	key := flag.String("key", "", "S3 object key for the config file")
+	versionId := flag.String("version-id", "", "Optional S3 object version ID")
 
 	flag.Parse()
 
 	logger.Init()
 
-	if err := run(*source, *location); err != nil {
+	runOptions := &RunOptions{
+		location:  *location,
+		bucket:    *bucket,
+		key:       *key,
+		versionId: *versionId,
+	}
+
+	if err := run(*source, runOptions); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
-func run(sourceType string, location string) error {
+func run(sourceType string, opts *RunOptions) error {
+	var backendSource backend.BackendSource
+	var err error
+
 	switch sourceType {
-	case "local":
-		backend := backend.LocalBackend{
-			Location: location,
+		case "local":
+		if opts.location == "" {
+			return fmt.Errorf("location of config file must be provided")
 		}
-
-		config, err := backend.GetConfig()
-
-		if err != nil {
-			return fmt.Errorf("failed to fetch config from backend: %w", err)
+		backendSource, err = backend.NewLocalBackend(opts.location)
+	case "s3":
+		if opts.bucket == "" || opts.key == "" {
+			return fmt.Errorf("missing required S3 options: bucket and key")
 		}
+		backendSource, err = backend.NewS3Backend(opts.bucket, opts.key, opts.versionId, "appstream_machine_role")
 
-		if err := validator.ValidateConfig(config); err != nil {
-			return fmt.Errorf("config file validation failed: %w", err)
-		}
-
-		err = service.ImplementConfig(config)
-
-		if err != nil {
-			return fmt.Errorf("error setting up config: %w", err)
-		}
 
 	default:
 		return fmt.Errorf("invalid source provided")
+	}
+
+	if err != nil {
+		return fmt.Errorf("unable to create backend source: %w", err)
+	}
+
+	config, err := backendSource.GetConfig()
+
+	if err != nil {
+		return fmt.Errorf("failed to fetch config from backend: %w", err)
+	}
+
+	if err := validator.ValidateConfig(config); err != nil {
+		return fmt.Errorf("config file validation failed: %w", err)
+	}
+
+	err = service.ImplementConfig(config)
+
+	if err != nil {
+		return fmt.Errorf("error setting up config: %w", err)
 	}
 
 	return nil
