@@ -65,24 +65,24 @@ installers:
 }
 
 func TestGetConfigFail(t *testing.T) {
-	client := &mockS3Client{}
-
-	client.Err = errors.New("boom")
+	expectedErr := errors.New("boom")
 
 	backend := &backend.S3Backend{
 		Bucket:    "test",
 		Key:       "test",
 		VersionId: "",
-		Client:    client,
+		Client: &mockS3Client{
+			Err: expectedErr,
+		},
 	}
 
 	_, err := backend.GetConfig()
 
 	if err == nil {
-		t.Errorf("expected %v, got nil", client.Err)
+		t.Errorf("expected %v, got nil", expectedErr)
 	}
-	if !errors.Is(err, client.Err) {
-		t.Errorf("expected %v, got %v", client.Err, err)
+	if !errors.Is(err, expectedErr) {
+		t.Errorf("expected %v, got %v", expectedErr, err)
 	}
 
 }
