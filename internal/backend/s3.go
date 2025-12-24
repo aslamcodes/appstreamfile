@@ -16,8 +16,10 @@ type S3Backend struct {
 	Client    S3Client
 }
 
-func (s3Backend *S3Backend) GetConfig() (*config.Config, error) {
-	ctx := context.Background()
+func (s3Backend *S3Backend) GetConfig(ctx context.Context) (*config.Config, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
 
 	if s3Backend.Client == nil {
 		return nil, fmt.Errorf("client is nil")

@@ -1,7 +1,11 @@
 package backend
 
-import c "github.com/aslamcodes/appstreamfile/internal/config"
+import (
+	"context"
+
+	c "github.com/aslamcodes/appstreamfile/internal/config"
+)
 
 type BackendSource interface {
-	GetConfig() (*c.Config, error)
+	GetConfig(ctx context.Context) (*c.Config, error)
 }

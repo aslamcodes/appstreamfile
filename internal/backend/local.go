@@ -1,6 +1,7 @@
 package backend
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -12,7 +13,11 @@ type LocalBackend struct {
 	Location string
 }
 
-func (lb *LocalBackend) GetConfig() (*config.Config, error) {
+func (lb *LocalBackend) GetConfig(ctx context.Context) (*config.Config, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
 	fmt.Printf("Attempting to fetch config from local backend at %s\n", lb.Location)
 
 	data, err := os.ReadFile(lb.Location)

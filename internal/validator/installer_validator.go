@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"slices"
@@ -12,7 +13,7 @@ var (
 	ErrInvalidExecutableForPlatform = errors.New("Invalid executable for given platform")
 )
 
-func InstallerValidator(configData *config.Config) error {
+func InstallerValidator(ctx context.Context, configData *config.Config) error {
 	platform := configData.Platform
 
 	platformExecs, exists := ExecPlatformMap[platform]

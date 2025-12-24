@@ -1,6 +1,7 @@
 package validator_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -46,6 +47,8 @@ installers:
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
+			ctx := context.TODO()
+
 			file, err := os.CreateTemp("../../testdata", fmt.Sprintf("test_%s_", tC.desc))
 
 			if err != nil {
@@ -58,13 +61,13 @@ installers:
 				Location: file.Name(),
 			}
 
-			configData, err := lb.GetConfig()
+			configData, err := lb.GetConfig(ctx)
 
 			if err != nil {
 				t.Errorf("unable to fetch config data: %v", err)
 			}
 
-			err = validator.ValidatePlatforms(configData)
+			err = validator.ValidatePlatforms(ctx, configData)
 
 			if !errors.Is(err, tC.expected) {
 				t.Errorf("expected %v, got %v", tC.expected, err)

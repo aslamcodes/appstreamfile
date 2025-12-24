@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"context"
 	"errors"
 	"strings"
 
@@ -12,7 +13,7 @@ var (
 	ErrInvalidTagsCreateImage       = errors.New("format invalid for create-image tags (key1:value1)")
 )
 
-func ValidateImage(c *config.Config) error {
+func ValidateImage(ctx context.Context, c *config.Config) error {
 	if c.Image.Name == "" {
 		return ErrInvalidParametersCreateImage
 	}

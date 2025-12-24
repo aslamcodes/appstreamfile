@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
 
 	"github.com/aslamcodes/appstreamfile/internal/backend"
 	"github.com/aslamcodes/appstreamfile/internal/logger"
@@ -12,13 +14,17 @@ import (
 )
 
 type RunOptions struct {
-	location  string
-	bucket    string
-	key       string
-	versionId string
+	location   string
+	SourceType string
+	bucket     string
+	key        string
+	versionId  string
 }
 
 func main() {
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer cancel()
+
 	source := flag.String("source", "", "Configuration source: s3 or local")
 	location := flag.String("location", "", "Local filesystem path to the config file")
 	bucket := flag.String("bucket", "", "S3 bucket containing the config file")
@@ -30,24 +36,25 @@ func main() {
 	logger.Init()
 
 	runOptions := &RunOptions{
-		location:  *location,
-		bucket:    *bucket,
-		key:       *key,
-		versionId: *versionId,
+		SourceType: *source,
+		location:   *location,
+		bucket:     *bucket,
+		key:        *key,
+		versionId:  *versionId,
 	}
 
-	if err := run(*source, runOptions); err != nil {
+	if err := run(ctx, runOptions); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
-func run(sourceType string, opts *RunOptions) error {
+func run(ctx context.Context, opts *RunOptions) error {
 	var backendSource backend.BackendSource
 	var err error
 
-	switch sourceType {
-		case "local":
+	switch opts.SourceType {
+	case "local":
 		if opts.location == "" {
 			return fmt.Errorf("location of config file must be provided")
 		}
@@ -58,7 +65,6 @@ func run(sourceType string, opts *RunOptions) error {
 		}
 		backendSource, err = backend.NewS3Backend(opts.bucket, opts.key, opts.versionId, "appstream_machine_role")
 
-
 	default:
 		return fmt.Errorf("invalid source provided")
 	}
@@ -67,13 +73,13 @@ func run(sourceType string, opts *RunOptions) error {
 		return fmt.Errorf("unable to create backend source: %w", err)
 	}
 
-	config, err := backendSource.GetConfig()
+	config, err := backendSource.GetConfig(ctx)
 
 	if err != nil {
 		return fmt.Errorf("failed to fetch config from backend: %w", err)
 	}
 
-	if err := validator.ValidateConfig(config); err != nil {
+	if err := validator.ValidateConfig(ctx, config); err != nil {
 		return fmt.Errorf("config file validation failed: %w", err)
 	}
 

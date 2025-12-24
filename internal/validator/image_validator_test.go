@@ -1,6 +1,7 @@
 package validator_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -64,6 +65,8 @@ image:
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
+			ctx := context.TODO()
+
 			file, err := os.CreateTemp("../../testdata", fmt.Sprintf("test_%s_", tC.desc))
 
 			if err != nil {
@@ -76,13 +79,13 @@ image:
 				Location: file.Name(),
 			}
 
-			configData, err := lb.GetConfig()
+			configData, err := lb.GetConfig(ctx)
 
 			if err != nil {
 				t.Errorf("unable to fetch config data: %v", err)
 			}
 
-			err = validator.ValidateImage(configData)
+			err = validator.ValidateImage(ctx, configData)
 
 			if !errors.Is(err, tC.expected) {
 				t.Errorf("expected %v, got %v", tC.expected, err)
