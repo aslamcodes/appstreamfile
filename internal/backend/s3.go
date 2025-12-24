@@ -17,6 +17,10 @@ type S3Backend struct {
 }
 
 func (s3Backend *S3Backend) GetConfig(ctx context.Context) (*config.Config, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+
 	if s3Backend.Client == nil {
 		return nil, fmt.Errorf("client is nil")
 	}
