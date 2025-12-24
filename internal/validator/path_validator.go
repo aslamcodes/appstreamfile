@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"regexp"
@@ -14,7 +15,7 @@ var (
 	ErrInvalidPathForWindows = errors.New("path is invalid for windows")
 )
 
-func ValidatePaths(c *config.Config) error {
+func ValidatePaths(ctx context.Context, c *config.Config) error {
 	var (
 		winDrive = regexp.MustCompile(`^[A-Za-z]:`)
 		uncPath  = regexp.MustCompile(`^\\\\`)

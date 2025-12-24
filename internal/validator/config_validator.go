@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"context"
 	"errors"
 	"slices"
 
@@ -12,8 +13,7 @@ var (
 	ErrInvalidPlatform = errors.New("Platform not supported")
 )
 
-
-func ValidatePlatforms(c *config.Config) error {
+func ValidatePlatforms(ctx context.Context, c *config.Config) error {
 	if c.Platform == "" {
 		return ErrPlatformMissing
 	}

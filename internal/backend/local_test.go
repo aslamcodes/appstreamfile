@@ -1,6 +1,7 @@
 package backend_test
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"reflect"
@@ -15,7 +16,7 @@ func TestGetConfig(t *testing.T) {
 		Location: "../../testdata/config_win.yaml",
 	}
 
-	actual, err := localBackend.GetConfig()
+	actual, err := localBackend.GetConfig(context.TODO())
 
 	if err != nil {
 		t.Fatal(err)

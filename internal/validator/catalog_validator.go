@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"context"
 	"errors"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
@@ -12,7 +13,7 @@ var (
 	ErrEmptyCatalogNamePath = errors.New("catalog application path and name cannot be empty")
 )
 
-func ValidateCatalogApplications(configData *config.Config) error {
+func ValidateCatalogApplications(ctx context.Context, configData *config.Config) error {
 	for _, c := range configData.Catalogs {
 		if c.Name == "" && c.Path == "" {
 			return ErrEmptyCatalogNamePath

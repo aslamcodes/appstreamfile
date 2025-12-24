@@ -1,6 +1,7 @@
 package validator_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -52,13 +53,15 @@ files:
 				Location: file.Name(),
 			}
 
-			configData, err := lb.GetConfig()
+			ctx := context.TODO()
+
+			configData, err := lb.GetConfig(ctx)
 
 			if err != nil {
 				t.Errorf("unable to fetch config data: %v", err)
 			}
 
-			err = validator.ValidateFileDeploys(configData)
+			err = validator.ValidateFileDeploys(ctx, configData)
 
 			if !errors.Is(err, tC.expected) {
 				t.Errorf("expected %v, got %v", tC.expected, err)

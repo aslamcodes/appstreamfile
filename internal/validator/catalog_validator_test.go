@@ -1,6 +1,7 @@
 package validator_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/aslamcodes/appstreamfile/internal/backend"
@@ -40,13 +41,13 @@ func TestValidateCatalogConfig(t *testing.T) {
 				Location: tC.filename,
 			}
 
-			config, err := lb.GetConfig()
+			config, err := lb.GetConfig(context.TODO())
 
 			if err != nil {
 				t.Errorf("unable to load config: %s", err.Error())
 			}
 
-			actual := validator.ValidateCatalogApplications(config)
+			actual := validator.ValidateCatalogApplications(context.TODO(), config)
 
 			if actual != tC.expected {
 				t.Errorf("expected %v, actual %v", tC.expected, actual)

@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
@@ -11,8 +12,8 @@ var ExecPlatformMap = map[string][]string{
 	"unix":    {"bash"},
 }
 
-func ValidateConfig(c *config.Config) error {
-	validators := []func(*config.Config) error{
+func ValidateConfig(ctx context.Context, c *config.Config) error {
+	validators := []func(context.Context, *config.Config) error{
 		ValidateCatalogApplications,
 		ValidateFileDeploys,
 		ValidateImage,
@@ -22,7 +23,7 @@ func ValidateConfig(c *config.Config) error {
 	}
 
 	for _, v := range validators {
-		if err := v(c); err != nil {
+		if err := v(ctx, c); err != nil {
 			return err
 		}
 	}

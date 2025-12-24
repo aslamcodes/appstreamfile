@@ -52,7 +52,7 @@ installers:
 		Client:    client,
 	}
 
-	actual, err := backend.GetConfig()
+	actual, err := backend.GetConfig(context.TODO())
 
 	if err != nil {
 		t.Errorf("error fetching the config: %v", err)
@@ -76,7 +76,7 @@ func TestGetConfigFail(t *testing.T) {
 		},
 	}
 
-	_, err := backend.GetConfig()
+	_, err := backend.GetConfig(context.TODO())
 
 	if err == nil {
 		t.Errorf("expected %v, got nil", expectedErr)
