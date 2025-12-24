@@ -12,10 +12,11 @@ import (
 )
 
 type RunOptions struct {
-	location  string
-	bucket    string
-	key       string
-	versionId string
+	location   string
+	SourceType string
+	bucket     string
+	key        string
+	versionId  string
 }
 
 func main() {
@@ -30,24 +31,25 @@ func main() {
 	logger.Init()
 
 	runOptions := &RunOptions{
-		location:  *location,
-		bucket:    *bucket,
-		key:       *key,
-		versionId: *versionId,
+		SourceType: *source,
+		location:   *location,
+		bucket:     *bucket,
+		key:        *key,
+		versionId:  *versionId,
 	}
 
-	if err := run(*source, runOptions); err != nil {
+	if err := run(runOptions); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }
 
-func run(sourceType string, opts *RunOptions) error {
+func run(opts *RunOptions) error {
 	var backendSource backend.BackendSource
 	var err error
 
-	switch sourceType {
-		case "local":
+	switch opts.SourceType {
+	case "local":
 		if opts.location == "" {
 			return fmt.Errorf("location of config file must be provided")
 		}
@@ -57,7 +59,6 @@ func run(sourceType string, opts *RunOptions) error {
 			return fmt.Errorf("missing required S3 options: bucket and key")
 		}
 		backendSource, err = backend.NewS3Backend(opts.bucket, opts.key, opts.versionId, "appstream_machine_role")
-
 
 	default:
 		return fmt.Errorf("invalid source provided")
