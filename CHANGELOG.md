@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/aslamcodes/appstreamfile/compare/v0.3.0...v0.3.1) (2025-12-24)
+
+
+### Bug Fixes
+
+* Add signal notify context to backend and validators ([#46](https://github.com/aslamcodes/appstreamfile/issues/46)) ([718d917](https://github.com/aslamcodes/appstreamfile/commit/718d917254c07b2dd9b283328e8bff4aecb13973))
+
 ## [0.3.0](https://github.com/aslamcodes/appstreamfile/compare/v0.2.0...v0.3.0) (2025-12-18)
 
 
