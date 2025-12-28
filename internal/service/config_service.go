@@ -48,7 +48,7 @@ func ImplementConfig(ctx context.Context, c *config.Config) error {
 	}
 
 	for _, catalog := range c.Catalogs {
-		if err := services.CatalogSvc.UpdateStackCatalog(catalog); err != nil {
+		if err := services.CatalogSvc.UpdateStackCatalog(ctx, catalog); err != nil {
 			return fmt.Errorf("error updating stack catalog: %w", err)
 		}
 	}

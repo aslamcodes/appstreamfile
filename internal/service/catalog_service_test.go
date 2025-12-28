@@ -1,6 +1,7 @@
 package service_test
 
 import (
+	"context"
 	"errors"
 	"slices"
 	"testing"
@@ -10,6 +11,8 @@ import (
 )
 
 func TestCatalogConfigSuccess(t *testing.T) {
+	ctx := context.TODO()
+
 	fc := &FakeCommander{
 		LookPathErr: nil,
 	}
@@ -27,7 +30,7 @@ func TestCatalogConfigSuccess(t *testing.T) {
 		Exec: fc,
 	}
 
-	updateCatalogSvc.UpdateStackCatalog(catalog)
+	updateCatalogSvc.UpdateStackCatalog(ctx, catalog)
 
 	if !slices.Equal(catalog.Args(), fc.LastArgs[1:]) {
 		t.Errorf("expected %v\n, got %v", catalog.Args(), fc.LastArgs[1:])
@@ -36,6 +39,8 @@ func TestCatalogConfigSuccess(t *testing.T) {
 }
 
 func TestCatalogConfigFail(t *testing.T) {
+	ctx := context.TODO()
+
 	fc := &FakeCommander{
 		LookPathErr: errors.New("file not found"),
 	}
@@ -53,7 +58,7 @@ func TestCatalogConfigFail(t *testing.T) {
 		Exec: fc,
 	}
 
-	err := updateCatalogSvc.UpdateStackCatalog(catalog)
+	err := updateCatalogSvc.UpdateStackCatalog(ctx, catalog)
 
 	if !errors.Is(fc.LookPathErr, err) {
 		t.Errorf("expected %v\n, got %v", fc.LookPathErr, err)
