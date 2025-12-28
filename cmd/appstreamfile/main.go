@@ -83,7 +83,7 @@ func run(ctx context.Context, opts *RunOptions) error {
 		return fmt.Errorf("config file validation failed: %w", err)
 	}
 
-	err = service.ImplementConfig(config)
+	err = service.ImplementConfig(ctx, config)
 
 	if err != nil {
 		return fmt.Errorf("error setting up config: %w", err)

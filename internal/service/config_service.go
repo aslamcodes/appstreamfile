@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
@@ -9,7 +10,7 @@ import (
 
 const IMAGE_ASSISTANT = "image-assistant"
 
-func ImplementConfig(c *config.Config) error {
+func ImplementConfig(ctx context.Context, c *config.Config) error {
 	services := &services{
 		FileDeploySvc:        &FileDeploySvc{},
 		SessionScriptService: &SessionScriptSvc{},
