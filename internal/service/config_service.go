@@ -53,7 +53,7 @@ func ImplementConfig(ctx context.Context, c *config.Config) error {
 		}
 	}
 
-	if err := services.ImageBuildService.BuildImage(c.Image); err != nil {
+	if err := services.ImageBuildService.BuildImage(ctx, c.Image); err != nil {
 		return fmt.Errorf("error building out image: %w", err)
 	}
 
