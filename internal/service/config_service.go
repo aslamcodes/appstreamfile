@@ -11,18 +11,14 @@ import (
 const IMAGE_ASSISTANT = "image-assistant"
 
 func ImplementConfig(ctx context.Context, c *config.Config) error {
+	execCmd := &execx.ExecCommander{}
+
 	services := &services{
 		FileDeploySvc:        &FileDeploySvc{},
 		SessionScriptService: &SessionScriptSvc{},
-		CatalogSvc: &UpdateStackCatalogSvc{
-			Exec: &execx.ExecCommander{},
-		},
-		ImageBuildService: &ImageBuildSvc{
-			Exec: &execx.ExecCommander{},
-		},
-		InstallerService: &InstallerSvc{
-			Exec: &execx.ExecCommander{},
-		},
+		CatalogSvc:           &UpdateStackCatalogSvc{Exec: execCmd},
+		ImageBuildService:    &ImageBuildSvc{Exec: execCmd},
+		InstallerService:     &InstallerSvc{Exec: execCmd},
 	}
 
 	for _, i := range c.Installers {
