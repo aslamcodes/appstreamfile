@@ -1,6 +1,8 @@
 package service_test
 
 import (
+	"context"
+
 	"github.com/aslamcodes/appstreamfile/internal/execx"
 )
 
@@ -29,6 +31,15 @@ func (fc *FakeCommander) LookPath(file string) (string, error) {
 }
 
 func (fc *FakeCommander) Command(name string, args ...string) execx.Cmd {
+	fc.LastCommand = name
+	fc.LastArgs = args
+	return &FakeCmd{
+		Command: name,
+		Args:    args,
+	}
+}
+
+func (fc *FakeCommander) CommandContext(context context.Context, name string, args ...string) execx.Cmd {
 	fc.LastCommand = name
 	fc.LastArgs = args
 	return &FakeCmd{

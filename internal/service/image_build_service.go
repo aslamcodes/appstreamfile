@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
@@ -11,7 +12,7 @@ type ImageBuildSvc struct {
 	Exec execx.Commander
 }
 
-func (i *ImageBuildSvc) BuildImage(image config.Image) error {
+func (i *ImageBuildSvc) BuildImage(ctx context.Context, image config.Image) error {
 	fmt.Println("\nBuilding out image")
 
 	_, err := i.Exec.LookPath(IMAGE_ASSISTANT)
@@ -22,7 +23,7 @@ func (i *ImageBuildSvc) BuildImage(image config.Image) error {
 
 	args := append([]string{"create-image"}, image.Args()...)
 
-	cmd := i.Exec.Command(IMAGE_ASSISTANT, args...)
+	cmd := i.Exec.CommandContext(ctx, IMAGE_ASSISTANT, args...)
 
 	fmt.Println(cmd.String())
 

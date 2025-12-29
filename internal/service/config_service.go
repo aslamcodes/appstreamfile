@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
@@ -9,24 +10,20 @@ import (
 
 const IMAGE_ASSISTANT = "image-assistant"
 
-func ImplementConfig(c *config.Config) error {
+func ImplementConfig(ctx context.Context, c *config.Config) error {
+	execCmd := &execx.ExecCommander{}
+
 	services := &services{
 		FileDeploySvc:        &FileDeploySvc{},
 		SessionScriptService: &SessionScriptSvc{},
-		CatalogSvc: &UpdateStackCatalogSvc{
-			Exec: &execx.ExecCommander{},
-		},
-		ImageBuildService: &ImageBuildSvc{
-			Exec: &execx.ExecCommander{},
-		},
-		InstallerService: &InstallerSvc{
-			Exec: &execx.ExecCommander{},
-		},
+		CatalogSvc:           &UpdateStackCatalogSvc{Exec: execCmd},
+		ImageBuildService:    &ImageBuildSvc{Exec: execCmd},
+		InstallerService:     &InstallerSvc{Exec: execCmd},
 	}
 
 	for _, i := range c.Installers {
 		fmt.Println("Executing installer with", i.Executable)
-		err := services.InstallerService.InstallScript(&i)
+		err := services.InstallerService.InstallScript(ctx, &i)
 
 		if err != nil {
 			return fmt.Errorf("error executing %s script\n%s: %w", i.Executable, i.InstallScript, err)
@@ -42,17 +39,17 @@ func ImplementConfig(c *config.Config) error {
 		}
 	}
 
-	if err := services.SessionScriptService.UpdateSessionScriptConfig(SessionScriptLocation(), c.SessionScripts); err != nil {
+	if err := services.SessionScriptService.UpdateSessionScriptConfig(ctx, SessionScriptLocation(), c.SessionScripts); err != nil {
 		return fmt.Errorf("error configuring session scripts: %w", err)
 	}
 
 	for _, catalog := range c.Catalogs {
-		if err := services.CatalogSvc.UpdateStackCatalog(catalog); err != nil {
+		if err := services.CatalogSvc.UpdateStackCatalog(ctx, catalog); err != nil {
 			return fmt.Errorf("error updating stack catalog: %w", err)
 		}
 	}
 
-	if err := services.ImageBuildService.BuildImage(c.Image); err != nil {
+	if err := services.ImageBuildService.BuildImage(ctx, c.Image); err != nil {
 		return fmt.Errorf("error building out image: %w", err)
 	}
 

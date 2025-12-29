@@ -1,6 +1,7 @@
 package service_test
 
 import (
+	"context"
 	"os"
 	"testing"
 
@@ -9,6 +10,7 @@ import (
 )
 
 func TestInstallCreatesScriptFile(t *testing.T) {
+	ctx := context.TODO()
 	fake := &FakeCommander{}
 	svc := &service.InstallerSvc{Exec: fake, KeepTmpForTest: true}
 
@@ -17,7 +19,7 @@ func TestInstallCreatesScriptFile(t *testing.T) {
 		InstallScript: "Write-Host hi",
 	}
 
-	_ = svc.InstallScript(inst)
+	_ = svc.InstallScript(ctx, inst)
 
 	scriptPath := fake.LastArgs[len(fake.LastArgs)-1]
 
@@ -30,10 +32,12 @@ func TestInstallCreatesScriptFile(t *testing.T) {
 }
 
 func TestRunScript(t *testing.T) {
+	ctx := context.TODO()
+
 	fake := &FakeCommander{}
 	svc := &service.InstallerSvc{Exec: fake}
 
-	err := svc.RunScript("powershell.exe",
+	err := svc.RunScript(ctx, "powershell.exe",
 		[]string{"-NoProfile", "-File"},
 		"/tmp/test.ps1",
 	)

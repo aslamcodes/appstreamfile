@@ -1,6 +1,7 @@
 package service_test
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"testing"
@@ -10,6 +11,8 @@ import (
 )
 
 func TestImageBuild(t *testing.T) {
+	ctx := context.TODO()
+
 	fc := FakeCommander{
 		LastCommand: "",
 		LastArgs:    []string{},
@@ -30,7 +33,7 @@ func TestImageBuild(t *testing.T) {
 		DryRun:                  true,
 	}
 
-	i.BuildImage(image)
+	i.BuildImage(ctx, image)
 
 	expectedCommand := strings.TrimSpace(`image-assistant create-image --name test --display-name test2 --description test3 --use-latest-agent-version --enable-dynamic-app-catalog --dry-run --tags k1 v1 k2 built with appstreamfile`)
 	actual := strings.TrimSpace(fmt.Sprintf("%s %s", fc.LastCommand, strings.Join(fc.LastArgs, " ")))

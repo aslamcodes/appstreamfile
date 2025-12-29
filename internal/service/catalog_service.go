@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/aslamcodes/appstreamfile/internal/config"
@@ -11,7 +12,7 @@ type UpdateStackCatalogSvc struct {
 	Exec execx.Commander
 }
 
-func (svc *UpdateStackCatalogSvc) UpdateStackCatalog(c config.CatalogConfig) error {
+func (svc *UpdateStackCatalogSvc) UpdateStackCatalog(ctx context.Context, c config.CatalogConfig) error {
 	fmt.Println("\nConfiguring stack catalog")
 	fmt.Println(c)
 
@@ -23,7 +24,7 @@ func (svc *UpdateStackCatalogSvc) UpdateStackCatalog(c config.CatalogConfig) err
 
 	args := append([]string{"add-application"}, c.Args()...)
 
-	cmd := svc.Exec.Command(IMAGE_ASSISTANT, args...)
+	cmd := svc.Exec.CommandContext(ctx, IMAGE_ASSISTANT, args...)
 
 	output, err := cmd.CombinedOutput()
 

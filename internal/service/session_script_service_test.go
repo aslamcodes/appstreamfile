@@ -1,6 +1,7 @@
 package service_test
 
 import (
+	"context"
 	"encoding/json"
 	"os"
 	"path"
@@ -12,6 +13,7 @@ import (
 )
 
 func Test(t *testing.T) {
+	ctx := context.TODO()
 	dir := os.TempDir()
 	config_file_path := path.Join(dir, "config.json")
 
@@ -54,7 +56,7 @@ func Test(t *testing.T) {
 
 	svc := service.SessionScriptSvc{}
 
-	svc.UpdateSessionScriptConfig(config_file_path, *ss)
+	svc.UpdateSessionScriptConfig(ctx, config_file_path, *ss)
 
 	content, err := os.ReadFile(config_file_path)
 
