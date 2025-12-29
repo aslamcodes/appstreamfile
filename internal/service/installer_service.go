@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -13,7 +14,7 @@ type InstallerSvc struct {
 	KeepTmpForTest bool
 }
 
-func (s *InstallerSvc) InstallScript(inst *config.Installer) error {
+func (s *InstallerSvc) InstallScript(ctx context.Context, inst *config.Installer) error {
 	var (
 		exe  string
 		ext  string
@@ -52,11 +53,11 @@ func (s *InstallerSvc) InstallScript(inst *config.Installer) error {
 		return fmt.Errorf("unable to close the file: %w", err)
 	}
 
-	return s.RunScript(exe, args, f.Name())
+	return s.RunScript(ctx, exe, args, f.Name())
 }
 
-func (s *InstallerSvc) RunScript(exe string, args []string, filePath string) error {
-	cmd := s.Exec.Command(exe, append(args, filePath)...)
+func (s *InstallerSvc) RunScript(ctx context.Context, exe string, args []string, filePath string) error {
+	cmd := s.Exec.CommandContext(ctx, exe, append(args, filePath)...)
 
 	out, err := cmd.CombinedOutput()
 
