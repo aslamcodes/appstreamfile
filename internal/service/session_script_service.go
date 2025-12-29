@@ -2,6 +2,7 @@ package service
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -20,7 +21,11 @@ func SessionScriptLocation() string {
 	return "/opt/appstream/SessionScripts/config.json"
 }
 
-func (svc *SessionScriptSvc) UpdateSessionScriptConfig(location string, ss config.SessionScripts) error {
+func (svc *SessionScriptSvc) UpdateSessionScriptConfig(ctx context.Context, location string, ss config.SessionScripts) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+
 	fmt.Println("Configuring session scripts")
 
 	if err := os.MkdirAll(filepath.Dir(location), 0770); err != nil {

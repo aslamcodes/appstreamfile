@@ -39,7 +39,7 @@ func ImplementConfig(ctx context.Context, c *config.Config) error {
 		}
 	}
 
-	if err := services.SessionScriptService.UpdateSessionScriptConfig(SessionScriptLocation(), c.SessionScripts); err != nil {
+	if err := services.SessionScriptService.UpdateSessionScriptConfig(ctx, SessionScriptLocation(), c.SessionScripts); err != nil {
 		return fmt.Errorf("error configuring session scripts: %w", err)
 	}
 
