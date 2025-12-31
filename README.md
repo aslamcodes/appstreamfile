@@ -13,11 +13,12 @@ AWS AppStream provides a CLI, but it only handles high-level image operations li
 4. System/user session scripts
 5. File provisioning
 6. Declarative image metadata
+7. S3 Backend Support
 
 # Planned Features
 1. Registry Configs
 2. Scaffolded startup Apps - Customise your app startup
-3. S3 and Git backend support
+3. Git backend support
 4. State persistence within image builders 
 
 # Installation
@@ -33,10 +34,75 @@ iex (iwr https://raw.githubusercontent.com/aslamcodes/appstreamfile/main/win_ins
 ***Supported in future releases***
 
 # Usage
-Use **local** backend source when the config file is within image builders. S3, Git Support is WIP
+Appstreamfile supports fetching configuration from local filesystem or S3.
+
+### Local Source
+Use **local** backend source when the config file is within the image builder.
 ```sh
     appstreamfile -source local -location config.yaml
 ```
+
+### S3 Source
+Use **s3** backend source to fetch config from an S3 bucket.
+*Note: Requires an AWS profile named `appstream_machine_role` to be configured.*
+```sh
+    appstreamfile -source s3 -bucket my-bucket -key path/to/config.yaml
+```
+
+### Flags
+| Flag | Description | Required For |
+|------|-------------|--------------|
+| `-source` | Configuration source (`local` or `s3`) | All |
+| `-location` | Path to local config file | `local` source |
+| `-bucket` | S3 bucket name | `s3` source |
+| `-key` | S3 object key | `s3` source |
+| `-version-id` | S3 object version ID (optional) | `s3` source |
+
+# Configuration Reference
+
+The configuration file is a YAML file with the following sections:
+
+### `platform`
+Operating system platform (e.g., `windows`).
+
+### `installers`
+List of installation scripts to run.
+- `executable`: The shell/executable to run the script (e.g., `powershell`).
+- `installScript`: The actual script content.
+
+### `catalog`
+List of applications to add to the AppStream catalog.
+- `name`: Internal name of the application.
+- `path`: Absolute path to the executable.
+- `display_name`: Name shown to users.
+- `parameters`: Launch parameters.
+- `icon_path`: Path to the icon file.
+- `working_dir`: Working directory for the application.
+
+### `files`
+List of files to create on the system.
+- `path`: Destination path.
+- `content`: Content of the file.
+
+### `session_scripts`
+Configuration for session scripts (start and termination).
+Contains `session_start` and `session_termination` blocks, each with:
+- `waitingTime`: Max time to wait for scripts to complete (in seconds).
+- `executables`: List of scripts to run.
+  - `context`: `system` or `user`.
+  - `filename`: Path to the script.
+  - `arguments`: Arguments to pass.
+  - `s3LogEnabled`: Boolean to enable logging to S3.
+
+### `image`
+Metadata for the resulting AppStream image.
+- `name`: Image name.
+- `display_name`: Display name.
+- `description`: Description.
+- `enable_dynamic_app_catalog`: Boolean.
+- `use_latest_agent_version`: Boolean.
+- `tags`: List of tags (`key:value`).
+- `dry_run`: If true, simulates operations without making changes.
 
 # Sample config
 ```yaml
