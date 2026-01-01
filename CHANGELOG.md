@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.2](https://github.com/aslamcodes/appstreamfile/compare/v0.3.1...v0.3.2) (2026-01-01)
+
+
+### Bug Fixes
+
+* add context param to operations ([#48](https://github.com/aslamcodes/appstreamfile/issues/48)) ([bc17388](https://github.com/aslamcodes/appstreamfile/commit/bc1738838f0458cf8a36a2e70df9b8476963f2e4))
+* add context to installer service, s3 client and file deploy service ([#50](https://github.com/aslamcodes/appstreamfile/issues/50)) ([0e0f21d](https://github.com/aslamcodes/appstreamfile/commit/0e0f21d13903c6fd620c1186f362456330d90d2a))
+
 ## [0.3.1](https://github.com/aslamcodes/appstreamfile/compare/v0.3.0...v0.3.1) (2025-12-24)
 
 
