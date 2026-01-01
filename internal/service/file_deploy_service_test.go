@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"os"
 	"testing"
 
@@ -8,6 +9,8 @@ import (
 )
 
 func TestFileDeploy(t *testing.T) {
+	ctx := context.TODO()
+
 	file, err := os.CreateTemp("../../testdata", "test.txt")
 	defer func() {
 		os.Remove(file.Name())
@@ -24,7 +27,7 @@ func TestFileDeploy(t *testing.T) {
 
 	s := FileDeploySvc{}
 
-	s.DeployFile(f)
+	s.DeployFile(ctx, f)
 
 	content, err := os.ReadFile(f.Path)
 

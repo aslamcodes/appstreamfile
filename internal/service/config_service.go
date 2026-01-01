@@ -32,7 +32,7 @@ func ImplementConfig(ctx context.Context, c *config.Config) error {
 
 	for _, f := range c.Files {
 		fmt.Println("Deploying file", f.Path)
-		err := services.FileDeploySvc.DeployFile(&f)
+		err := services.FileDeploySvc.DeployFile(ctx, &f)
 
 		if err != nil {
 			return fmt.Errorf("error deploying file %s: %w", f.Path, err)

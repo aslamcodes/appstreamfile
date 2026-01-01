@@ -50,8 +50,8 @@ func (s3Backend *S3Backend) GetConfig(ctx context.Context) (*config.Config, erro
 	return &configData, nil
 }
 
-func NewS3Backend(bucket, key, versionId, profile string) (BackendSource, error) {
-	client, err := NewS3Client(profile)
+func NewS3Backend(ctx context.Context, bucket, key, versionId, profile string) (BackendSource, error) {
+	client, err := NewS3Client(ctx, profile)
 
 	if err != nil {
 		return nil, fmt.Errorf("not able to create s3 client: %w", err)

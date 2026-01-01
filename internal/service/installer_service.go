@@ -15,6 +15,10 @@ type InstallerSvc struct {
 }
 
 func (s *InstallerSvc) InstallScript(ctx context.Context, inst *config.Installer) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+
 	var (
 		exe  string
 		ext  string
