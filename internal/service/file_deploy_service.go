@@ -2,6 +2,7 @@ package service
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -12,7 +13,12 @@ import (
 type FileDeploySvc struct {
 }
 
-func (s *FileDeploySvc) DeployFile(f *config.File) error {
+func (s *FileDeploySvc) DeployFile(ctx context.Context, f *config.File) error {
+
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+
 	if err := os.MkdirAll(filepath.Dir(f.Path), 0770); err != nil {
 		return fmt.Errorf("error creating required directories for %s: %w", f.Path, err)
 	}

@@ -29,14 +29,12 @@ func (c *S3BackendClient) GetObject(ctx context.Context, bucket string, key stri
 	return c.s3Client.GetObject(ctx, objectInput)
 }
 
-func NewS3Client(profile string) (S3Client, error) {
+func NewS3Client(ctx context.Context, profile string) (S3Client, error) {
 	opts := []func(*s3Config.LoadOptions) error{}
 
 	if profile != "" {
 		opts = append(opts, s3Config.WithSharedConfigProfile(profile))
 	}
-
-	ctx := context.Background()
 
 	cfg, err := s3Config.LoadDefaultConfig(ctx, opts...)
 	if err != nil {
